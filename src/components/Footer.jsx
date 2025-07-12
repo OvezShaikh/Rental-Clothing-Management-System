@@ -22,7 +22,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gray-900 text-gray-300 px-6 sm:px-10 py-12">
+    <footer className="bg-gray-900 text-gray-300 px-6 sm:px-10 py-12 z-50">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
 
         {/* Brand Section */}
@@ -116,6 +116,7 @@ const Footer = () => {
           <Link to="/privacy" className="hover:text-white">Privacy Policy</Link>
           <Link to="/terms" className="hover:text-white">Terms</Link>
           <Link to="/returns" className="hover:text-white">Return Policy</Link>
+          <Link to="/faq" className="hover:text-white">FAQs</Link>
         </div>
       </div>
     </footer>
