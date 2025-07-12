@@ -35,7 +35,7 @@ export default function DashboardLayout({ children }) {
             </button>
           </div>
 
-          <main className="flex-1 p-6">{children}</main>
+          <main className="flex-1 px-4 sm:px-6 py-4">{children}</main>
         </div>
       </div>
 

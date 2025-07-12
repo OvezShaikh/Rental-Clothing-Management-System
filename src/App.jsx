@@ -9,10 +9,12 @@ import { FaQ } from "react-icons/fa6";
 import Dashboard from "./pages/Dashboard";
 import Catalog from "./pages/Catalog";
 import MyRentals from "./pages/MyRentals";
+import ScrollToTop from "./components/ScrollToTop"; // Import ScrollToTop component
 
 function App() {
   return (
     <BrowserRouter>
+    <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />

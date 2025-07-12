@@ -39,7 +39,7 @@ const flashProducts = [
     name: "Designer Saree",
     rent: 749,
     originalRent: 1499,
-    image: "https://via.placeholder.com/150",
+    image: images.saree,
     rented: 10,
   },
 ];
