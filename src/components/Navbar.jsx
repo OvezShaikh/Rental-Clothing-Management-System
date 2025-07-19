@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { images } from "../constants/images";
 
 export default function Navbar() {
@@ -91,50 +92,65 @@ export default function Navbar() {
 
         {/* Nav Links */}
         <div
-          className={`${
-            mobileMenuOpen ? "block" : "hidden"
-          } w-full md:flex md:items-center md:w-auto md:order-1`}
+          className={`${mobileMenuOpen ? "block" : "hidden"
+            } w-full md:flex md:items-center md:w-auto md:order-1`}
         >
           <ul className="flex flex-col md:flex-row md:space-x-8 font-medium mt-4 md:mt-0 bg-gray-50 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 p-4 md:p-0 rounded-lg md:rounded-none">
             <li>
-              <Link
+              <NavLink
                 to="/"
-                className="block py-2 px-3 text-blue-700 md:text-blue-700 md:p-0 dark:text-white"
+                className={({ isActive }) =>
+                  isActive
+                    ? "block py-2 px-3 font-bold text-lg text-blue-700 md:p-0 dark:text-white"
+                    : "block py-2 px-3 text-gray-700 hover:text-blue-700 md:p-0 dark:text-white"
+                }
               >
                 Home
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link
+              <NavLink
                 to="/about"
-                className="block py-2 px-3 text-gray-700 hover:text-blue-700 md:p-0 dark:text-white"
+                className={({ isActive }) =>
+                  isActive
+                    ? "block py-2 px-3 font-bold text-lg text-blue-700 md:p-0 dark:text-white"
+                    : "block py-2 px-3 text-gray-700 hover:text-blue-700 md:p-0 dark:text-white"
+                }
               >
                 About
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link
+              <NavLink
                 to="/catalog"
-                className="block py-2 px-3 text-gray-700 hover:text-blue-700 md:p-0 dark:text-white"
+                className={({ isActive }) =>
+                  isActive
+                    ? "block py-2 px-3 font-bold text-lg text-blue-700 md:p-0 dark:text-white"
+                    : "block py-2 px-3 text-gray-700 hover:text-blue-700 md:p-0 dark:text-white"
+                }
               >
                 Catalog
-              </Link>
+              </NavLink>
             </li>
-            <li>
+            {/* <li>
               <Link
                 to="/pricing"
                 className="block py-2 px-3 text-gray-700 hover:text-blue-700 md:p-0 dark:text-white"
               >
                 Pricing
               </Link>
-            </li>
+            </li> */}
             <li>
-              <Link
+              <NavLink
                 to="/contact"
-                className="block py-2 px-3 text-gray-700 hover:text-blue-700 md:p-0 dark:text-white"
+                className={({ isActive }) =>
+                  isActive
+                    ? "block py-2 px-3 font-bold text-lg text-blue-700 md:p-0 dark:text-white"
+                    : "block py-2 px-3 text-gray-700 hover:text-blue-700 md:p-0 dark:text-white"
+                }
               >
                 Contact
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </div>
