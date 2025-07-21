@@ -15,6 +15,10 @@ import indowestern from "../assets/indowestern.jpg";
 import all from "../assets/all.jpg";
 import ethnic from "../assets/ethnic.jpg";
 import western from "../assets/western.jpg";
+import forhim from "../assets/forhim.jpg";
+import forher from "../assets/forher.jpg";
+import homeforhim from "../assets/homeforhim.jpg";
+import homeforher from "../assets/homeforher.jpg";
 
 export const images = {
   brownjacket, 
@@ -34,5 +38,9 @@ export const images = {
   all,
   ethnic,
   western,
+  forhim,
+  forher,
+  homeforhim,
+  homeforher,
 
 }

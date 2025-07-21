@@ -30,8 +30,8 @@ const Footer = () => {
           <div className="flex items-center gap-4 mb-4">
             <img src={logo} alt="FashionRent Logo" className="w-16 h-12 rounded-full object-cover" />
             <div>
-              <h3 className="text-xl font-bold text-white">
-                Fashion<span className="block text-sm font-normal text-pink-400">The house of fashion</span>
+              <h3 className="text-xl font-bold text-white font-playfair">
+                Paridhra<span className="block text-sm font-poppins text-[#ffd700]">The house of fashion</span>
               </h3>
             </div>
           </div>
@@ -74,7 +74,7 @@ const Footer = () => {
 
           {/* Address */}
           <div className="flex items-start gap-4">
-            <FaMapMarkerAlt className="text-pink-400 text-xl shrink-0" />
+            <FaMapMarkerAlt className="text-[#ffd700] text-xl shrink-0" />
             <p>
               Paridhra, Shop No: 6, Bhakti Anugan CHS, Plot No. 17A, Sector 12A,<br />
               near FAM Co-Operative Housing Society,<br />
@@ -84,7 +84,7 @@ const Footer = () => {
 
           {/* Phone */}
           <div className="flex items-start gap-4 flex-wrap">
-            <FaPhoneAlt className="text-pink-400 text-xl shrink-0" />
+            <FaPhoneAlt className="text-[#ffd700] text-xl shrink-0" />
             <div className="flex flex-col sm:flex-row sm:gap-4">
               <a href="tel:+919114519114" className="hover:underline">+91 9114519114</a>
               <span>/</span>
@@ -94,7 +94,7 @@ const Footer = () => {
 
           {/* Email */}
           <div className="flex items-start gap-4">
-            <FaEnvelope className="text-pink-400 text-xl shrink-0" />
+            <FaEnvelope className="text-[#ffd700] text-xl shrink-0" />
             <a href="mailto:paridhrafashion@gmail.com" className="hover:underline break-all">
               paridhrafashion@gmail.com
             </a>
@@ -102,7 +102,7 @@ const Footer = () => {
 
           {/* Button */}
           <div className="text-center sm:text-left">
-            <button className="bg-pink-500 hover:bg-pink-600 transition text-white px-6 py-2 rounded-full flex items-center justify-center gap-2 mx-auto sm:mx-0">
+            <button className="bg-[#ffd900d3] hover:bg-yellow-600 transition text-white px-6 py-2 rounded-full flex items-center justify-center gap-2 mx-auto sm:mx-0">
               Get in Touch <FaArrowRight />
             </button>
           </div>

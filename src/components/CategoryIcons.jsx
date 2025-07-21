@@ -22,7 +22,7 @@ const CategoryIcons = () => {
   }, []);
 
   return (
-    <div className="flex overflow-x-auto gap-10 px-4 py-6 bg-white justify-center">
+    <div className="flex overflow-x-auto gap-10 px-4 py-6 bg-white dark:bg-gray-800 dark:text-white justify-center">
       {loading ? (
         <p className="text-gray-500">Loading...</p>
       ) : (
@@ -36,7 +36,7 @@ const CategoryIcons = () => {
               alt={cat.name}
               className="w-16 h-16 mb-2 object-cover rounded-full shadow-sm"
             />
-            <span className="text-sm text-gray-700">{cat.name}</span>
+            <span className="text-sm text-gray-700 dark:text-white">{cat.name}</span>
           </div>
         ))
       )}

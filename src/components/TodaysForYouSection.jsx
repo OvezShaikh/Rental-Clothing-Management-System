@@ -68,7 +68,7 @@ const TodaysForYouSection = () => {
   const [activeTab, setActiveTab] = useState("All");
 
   return (
-    <div className="bg-white py-10 px-4 sm:px-12">
+    <div className="bg-white py-10 px-4 sm:px-12 dark:bg-gray-800 dark:text-white">
       <div className="mb-6 flex justify-between items-center">
         <h2 className="text-2xl font-semibold text-gray-800">
           Today's For You

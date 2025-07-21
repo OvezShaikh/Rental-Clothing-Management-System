@@ -34,7 +34,7 @@ export default function Sidebar({ isOpen, onClose }) {
 
   return (
     <aside
-      className={`relative top-0 left-0 z-40 h-auto w-64 bg-white border-r shadow-sm transition-transform duration-300 transform
+      className={`relative top-0 left-0 z-40 h-auto w-64 bg-white dark:bg-gray-800 dark:text-white border-r shadow-sm transition-transform duration-300 transform
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
         md:translate-x-0 md:static md:block`}
     >
@@ -42,24 +42,24 @@ export default function Sidebar({ isOpen, onClose }) {
       <div className="md:hidden flex justify-end p-4">
         <button
           onClick={onClose}
-          className="text-2xl text-gray-600 hover:text-pink-600"
+          className="text-2xl text-gray-600 dark:bg-gray-800 dark:text-white hover:text-pink-600"
         >
           <IoClose />
         </button>
       </div>
 
       {/* Logo */}
-      <div className="p-6 text-2xl font-bold text-pink-600">RentalFashion</div>
+      <div className="p-6 text-2xl font-bold text-yellow-500">RentalFashion</div>
 
       {/* Navigation */}
-      <nav className="flex flex-col space-y-3 px-6">
+      <nav className="flex flex-col space-y-3 px-6 dark:bg-gray-800 dark:text-white">
         {navItems.map((item) => (
           <Link
             key={item.name}
             to={item.path}
             onClick={onClose} // auto-close sidebar on link click (mobile)
-            className={`py-2 px-3 rounded-md text-gray-700 hover:bg-pink-100 ${
-              pathname === item.path ? "bg-pink-100 font-semibold" : ""
+            className={`py-2 px-3 rounded-md text-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-yellow-200 hover:bg-yellow-200 ${
+              pathname === item.path ? "bg-yellow-400 dark:hover:bg-yellow-400 font-semibold" : ""
             }`}
           >
             {item.name}

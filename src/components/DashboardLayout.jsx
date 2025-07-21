@@ -7,7 +7,7 @@ export default function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-800 dark:text-white">
       {/* Overlay when sidebar is open on mobile */}
       {sidebarOpen && (
         <div
@@ -29,7 +29,7 @@ export default function DashboardLayout({ children }) {
           <div className="md:hidden px-4 py-2">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="px-4 py-2 bg-pink-600 text-white rounded"
+              className="px-4 py-2 bg-yellow-500 text-white rounded"
             >
               Open Menu
             </button>

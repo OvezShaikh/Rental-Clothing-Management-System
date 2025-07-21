@@ -84,8 +84,8 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <div className="text-center mb-10">
-        <h1 className="text-4xl font-bold text-pink-600">Dashboard</h1>
+      <div className="text-center mb-10 ">
+        <h1 className="text-4xl font-bold text-pink-600 dark:text-blue-600">Dashboard</h1>
         <p className="text-gray-500 mt-2">
           Track your fashion rentals, wishlist & history
         </p>

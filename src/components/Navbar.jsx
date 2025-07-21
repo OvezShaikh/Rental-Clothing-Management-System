@@ -2,13 +2,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { images } from "../constants/images";
+import ThemeToggle from "../layout/ThemeToggle";
 
 export default function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-white border-b border-gray-200 dark:bg-gray-900 sticky top-0 z-50">
+    <nav className="bg-white border-b border-gray-200 dark:bg-gray-800 sticky top-0 z-50">
       <div className="max-w-screen-xl mx-auto flex flex-wrap items-center justify-between p-4">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-3">
@@ -38,6 +39,10 @@ export default function Navbar() {
                   <span className="block text-sm text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
                 </div>
                 <ul className="py-2">
+                  <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center justify-between">
+                    <h1 className="text-xl font-bold text-black dark:text-white">Mode</h1>
+                    <ThemeToggle />
+                  </li>
                   <li>
                     <Link
                       to="/dashboard"
@@ -95,7 +100,7 @@ export default function Navbar() {
           className={`${mobileMenuOpen ? "block" : "hidden"
             } w-full md:flex md:items-center md:w-auto md:order-1`}
         >
-          <ul className="flex flex-col md:flex-row md:space-x-8 font-medium mt-4 md:mt-0 bg-gray-50 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 p-4 md:p-0 rounded-lg md:rounded-none">
+          <ul className="flex flex-col md:flex-row md:space-x-8 font-medium mt-4 md:mt-0 bg-gray-50 md:bg-white dark:bg-gray-800 md:dark:bg-gray-800 p-4 md:p-0 rounded-lg md:rounded-none">
             <li>
               <NavLink
                 to="/"

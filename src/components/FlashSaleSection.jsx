@@ -49,10 +49,10 @@ const FlashSaleSection = () => {
   const nextRef = useRef(null);
 
   return (
-    <div className="bg-white py-10 px-4 sm:px-12">
+    <div className="bg-white py-10 sm:px-12 dark:bg-gray-800 dark:text-white">
       {/* Header row with title and buttons */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 flex items-center gap-2">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 flex items-center gap-2 dark:bg-gray-800 dark:text-white">
           ⚡ Flash Sale
         </h2>
         <div className="flex gap-2">
@@ -60,13 +60,13 @@ const FlashSaleSection = () => {
             ref={prevRef}
             className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100"
           >
-            <ChevronLeftIcon className="w-4 h-4 text-gray-600" />
+            <ChevronLeftIcon className="w-4 h-4 text-gray-600 dark:text-white" />
           </button>
           <button
             ref={nextRef}
             className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100"
           >
-            <ChevronRightIcon className="w-4 h-4 text-gray-600" />
+            <ChevronRightIcon className="w-4 h-4 text-gray-600 dark:text-white" />
           </button>
         </div>
       </div>

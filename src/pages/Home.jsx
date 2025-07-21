@@ -5,6 +5,7 @@ import HeroBanner from "../components/HeroBanner";
 import CategoryIcons from "../components/CategoryIcons";
 import FlashSaleSection from "../components/FlashSaleSection";
 import TodaysForYouSection from "../components/TodaysForYouSection";
+import GenderCategorySection from "../components/GenderCategorySection";
 // import ProductCard from "../components/ProductCard"; // Can be used for later sections
 // import ProductQuickView from "../components/ProductQuickView";
 // import BentoGrid from "../components/BentoGrid";
@@ -36,6 +37,7 @@ const Home = () => {
       <Navbar />
       <HeroBanner />
       <CategoryIcons />
+      <GenderCategorySection />
       <FlashSaleSection />
 
       {/* Future sections to add below: */}

@@ -4,18 +4,18 @@ import Footer from "../components/Footer";
 
 export default function ContactPage() {
     return (
-        <div className="bg-white text-gray-800">
+        <div className="bg-white text-gray-800 dark:bg-gray-800 dark:text-white">
             <Navbar />
             {/* Header Section */}
             <section className="bg-gradient-to-r from-pink-100 to-purple-100 py-16 px-4 text-center">
-                <h1 className="text-4xl md:text-5xl font-bold mb-4">Get in Touch</h1>
+                <h1 className="text-4xl md:text-5xl font-bold mb-4 dark:text-black">Get in Touch</h1>
                 <p className="text-lg text-gray-700 max-w-2xl mx-auto">
                     We're here to help with any questions about our rental clothing, services, or partnerships.
                 </p>
             </section>
 
             {/* Contact Info & Form */}
-            <section className="max-w-6xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-10">
+            <section className="max-w-6xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-10 ">
                 {/* Contact Details */}
                 <div className="space-y-6">
                     <h2 className="text-2xl font-semibold">Contact Information</h2>
@@ -50,7 +50,7 @@ export default function ContactPage() {
                     method="POST"
                     className="bg-gray-50 p-6 rounded-lg shadow-md space-y-4"
                 >
-                    <h2 className="text-2xl font-semibold mb-2">Send Us a Message</h2>
+                    <h2 className="text-2xl font-semibold mb-2 dark:text-black">Send Us a Message</h2>
 
                     {/* Hidden Fields */}
                     <input type="hidden" name="_captcha" value="false" />
