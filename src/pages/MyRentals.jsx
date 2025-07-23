@@ -33,7 +33,7 @@ export default function MyRentals() {
               className="w-24 h-24 object-cover rounded"
             />
             <div>
-              <h2 className="text-lg font-semibold">{rental.name}</h2>
+              <h2 className="text-lg font-semibold dark:text-black">{rental.name}</h2>
               <p className="text-gray-500">Rented on: {rental.date}</p>
               <span
                 className={`text-sm px-3 py-1 rounded-full inline-block mt-1 ${

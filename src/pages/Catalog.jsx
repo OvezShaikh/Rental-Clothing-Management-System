@@ -125,11 +125,11 @@ export default function Catalog() {
               <img
                 src={item.images?.length > 0 ? item.images[0].image : "https://via.placeholder.com/400"}
                 alt={item.name}
-                className="w-full h-[400px] sm:h-[400px] object-cover rounded-md mb-3"
+                className="w-full h-[400px] sm:h-[400px] object-cover rounded-md mb-3 dark:text-black"
               />
 
               <div className="flex-1 flex flex-col">
-                <h2 className="text-lg font-semibold">{item.name}</h2>
+                <h2 className="text-lg font-semibold dark:text-black">{item.name}</h2>
                 <p className="text-pink-600 font-semibold">₹{item.daily_rate}</p>
 
                 <div className="mt-auto">
@@ -157,7 +157,7 @@ export default function Catalog() {
 
               <div className="flex-1 flex flex-col justify-between h-full min-h-[8rem] sm:min-h-0">
                 <div className="mb-2">
-                  <h2 className="text-lg font-semibold">{item.name}</h2>
+                  <h2 className="text-lg font-semibold dark:text-black">{item.name}</h2>
                   <p className="text-pink-600 font-semibold">₹{item.daily_rate}</p>
                 </div>
                 <div className="mt-auto">

@@ -86,7 +86,7 @@ export default function Dashboard() {
     <DashboardLayout>
       <div className="text-center mb-10 ">
         <h1 className="text-4xl font-bold text-pink-600 dark:text-blue-600">Dashboard</h1>
-        <p className="text-gray-500 mt-2">
+        <p className="text-gray-500 mt-2 dark:text-white">
           Track your fashion rentals, wishlist & history
         </p>
       </div>
@@ -118,7 +118,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
         {/* Rentals Line Chart */}
         <div className="bg-white p-6 rounded-xl shadow">
-          <h3 className="text-lg font-semibold mb-4">Monthly Rentals</h3>
+          <h3 className="text-lg font-semibold mb-4 dark:text-black">Monthly Rentals</h3>
           <ResponsiveContainer width="100%" height={250}>
             <LineChart data={rentalData}>
               <XAxis dataKey="month" />
@@ -131,7 +131,7 @@ export default function Dashboard() {
 
         {/* Category Pie Chart */}
         <div className="bg-white p-6 rounded-xl shadow">
-          <h3 className="text-lg font-semibold mb-4">Top Rented Categories</h3>
+          <h3 className="text-lg font-semibold mb-4 dark:text-black">Top Rented Categories</h3>
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie data={categoryData} dataKey="value" nameKey="name" outerRadius={80} label>
@@ -147,7 +147,7 @@ export default function Dashboard() {
 
       {/* Recent Rentals Table */}
       <div className="bg-white mt-12 p-6 rounded-xl shadow">
-        <h3 className="text-lg font-semibold mb-4">Recent Rentals</h3>
+        <h3 className="text-lg font-semibold mb-4 dark:text-black">Recent Rentals</h3>
         <table className="w-full table-auto text-left text-sm">
           <thead className="text-gray-600 border-b">
             <tr>
@@ -160,10 +160,10 @@ export default function Dashboard() {
           <tbody>
             {recentRentals.map((rental) => (
               <tr key={rental.id} className="border-b">
-                <td className="py-2">{rental.id}</td>
-                <td className="py-2">{rental.item}</td>
-                <td className="py-2">{rental.date}</td>
-                <td className="py-2">
+                <td className="py-2 dark:text-black">{rental.id}</td>
+                <td className="py-2 dark:text-black">{rental.item}</td>
+                <td className="py-2 dark:text-black">{rental.date}</td>
+                <td className="py-2 dark:text-black">
                   <span
                     className={`px-2 py-1 rounded-full text-xs ${
                       rental.status === "Active"
