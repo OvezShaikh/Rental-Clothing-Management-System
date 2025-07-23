@@ -1,19 +1,34 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { FaStar, FaHeart, FaShareAlt } from "react-icons/fa";
+import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 const sizes = ["S", "M", "L", "XL", "XXL"];
 
 export default function ProductPage() {
-  const { state } = useLocation();
-  const product = state?.product;
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState("M");
-  const [mainImage, setMainImage] = useState(product?.image);
+  const [mainImage, setMainImage] = useState(null);
   const [activeTab, setActiveTab] = useState("description");
   const [showZoom, setShowZoom] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    axios
+      .get(`https://aliasgar.pythonanywhere.com/api/rentals/items/${id}/`)
+      .then((res) => {
+        setProduct(res.data);
+        if (res.data.images.length > 0) {
+          setMainImage(res.data.images[0].image);
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to fetch product", err);
+      });
+  }, [id]);
 
   const handleShare = async () => {
     const shareData = {
@@ -41,9 +56,7 @@ export default function ProductPage() {
   };
 
   if (!product) {
-    return (
-      <div className="text-center py-20 text-gray-500">Product not found.</div>
-    );
+    return <div className="text-center py-20 text-gray-500">Loading product...</div>;
   }
 
   return (
@@ -54,13 +67,13 @@ export default function ProductPage() {
           {/* Product Images */}
           <div className="flex gap-4">
             <div className="flex flex-col gap-2">
-              {[product.image, product.image, product.image].map((thumb, index) => (
+              {product.images.map((img, index) => (
                 <img
                   key={index}
-                  src={thumb}
+                  src={img.image}
                   alt={`thumb-${index}`}
-                  onClick={() => setMainImage(thumb)}
-                  className={`h-20 w-20 object-cover rounded-lg border cursor-pointer ${mainImage === thumb ? "border-pink-500" : "border-gray-300"
+                  onClick={() => setMainImage(img.image)}
+                  className={`h-20 w-20 object-cover rounded-lg border cursor-pointer ${mainImage === img.image ? "border-pink-500" : "border-gray-300"
                     }`}
                 />
               ))}
@@ -71,11 +84,7 @@ export default function ProductPage() {
               onMouseLeave={() => setShowZoom(false)}
               onMouseMove={handleMouseMove}
             >
-              <img
-                src={mainImage}
-                alt="Main"
-                className="w-full object-cover"
-              />
+              <img src={mainImage} alt="Main" className="w-full object-cover" />
               {showZoom && (
                 <div
                   className="absolute top-0 left-full ml-4 w-80 h-80 border overflow-hidden hidden lg:block"
@@ -100,7 +109,7 @@ export default function ProductPage() {
               <span className="text-sm text-gray-500 ml-2">4.9 (188 reviews)</span>
             </div>
 
-            <div className="text-xl text-pink-600 font-semibold">{product.price}</div>
+            <div className="text-xl text-pink-600 font-semibold">₹{product.daily_rate}</div>
             <p className="text-gray-600">Rent for 3 days — includes return pickup</p>
 
             <div>

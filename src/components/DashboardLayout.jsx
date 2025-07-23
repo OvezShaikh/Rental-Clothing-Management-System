@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar";
-import Navbar from "./Navbar";
+import DashboardNavbar from "./DashboardNavbar";
 import Footer from "./Footer";
 
 export default function DashboardLayout({ children }) {
@@ -8,7 +8,7 @@ export default function DashboardLayout({ children }) {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-800 dark:text-white">
-      {/* Overlay when sidebar is open on mobile */}
+      {/* Overlay for mobile */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-30 z-30 md:hidden"
@@ -16,30 +16,28 @@ export default function DashboardLayout({ children }) {
         />
       )}
 
-      {/* Sidebar and content */}
+      {/* Content Area */}
       <div className="flex flex-1">
         {/* Sidebar */}
-        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        <div
+          className={`transition-all duration-300 
+            ${sidebarOpen ? "fixed w-64 h-screen overflow-y-auto" : "fixed w-0 h-screen"} 
+            md:static md:w-64 md:h-auto md:overflow-visible 
+            bg-white dark:bg-gray-900 z-40`}
+        >
+          <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        </div>
 
-        {/* Main content */}
+        {/* Main Content */}
         <div className="flex-1 flex flex-col">
-          <Navbar />
-
-          {/* Optional mobile toggle button (if Navbar doesn't handle it) */}
-          <div className="md:hidden px-4 py-2">
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="px-4 py-2 bg-yellow-500 text-white rounded"
-            >
-              Open Menu
-            </button>
-          </div>
-
-          <main className="flex-1 px-4 sm:px-6 py-4">{children}</main>
+          <DashboardNavbar toggleSidebar={() => setSidebarOpen(true)} />
+          <main className="flex-1 px-4 sm:px-6 py-4 overflow-y-auto">
+            {children}
+          </main>
         </div>
       </div>
 
-      {/* Footer (full width, always at bottom) */}
+      {/* Footer */}
       <Footer />
     </div>
   );

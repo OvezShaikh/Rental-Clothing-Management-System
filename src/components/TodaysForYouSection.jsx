@@ -96,7 +96,7 @@ const TodaysForYouSection = () => {
             <img
               src={item.image}
               alt={item.name}
-              className="w-full h-48 object-cover rounded-md mb-3"
+              className="w-full h-[300px] object-cover rounded-md mb-3"
             />
             <h3 className="text-md font-semibold text-gray-800">{item.name}</h3>
             <p className="text-sm text-gray-500">{item.category}</p>

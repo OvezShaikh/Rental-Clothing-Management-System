@@ -34,45 +34,48 @@ export default function Sidebar({ isOpen, onClose }) {
 
   return (
     <aside
-      className={`relative top-0 left-0 z-40 h-auto w-64 bg-white dark:bg-gray-800 dark:text-white border-r shadow-sm transition-transform duration-300 transform
-        ${isOpen ? "translate-x-0" : "-translate-x-full"}
-        md:translate-x-0 md:static md:block`}
+      className={`z-40 w-64 bg-white dark:bg-gray-800 dark:text-white border-r shadow-sm 
+  transition-transform duration-300 transform flex-shrink-0
+  ${isOpen ? "translate-x-0" : "-translate-x-full"} 
+  md:translate-x-0 md:static md:block`}
     >
       {/* Mobile Close Button */}
-      <div className="md:hidden flex justify-end p-4">
+      <div className="md:hidden flex justify-end p-2">
         <button
           onClick={onClose}
-          className="text-2xl text-gray-600 dark:bg-gray-800 dark:text-white hover:text-pink-600"
+          className="text-2xl text-gray-600 hover:text-pink-600"
         >
           <IoClose />
         </button>
       </div>
 
-      {/* Logo */}
+      {/* Sidebar content (natural height, not forced full page) */}
       <div className="p-6 text-2xl font-bold text-yellow-500">RentalFashion</div>
 
-      {/* Navigation */}
-      <nav className="flex flex-col space-y-3 px-6 dark:bg-gray-800 dark:text-white">
+      <nav className="flex flex-col space-y-3 px-6">
         {navItems.map((item) => (
           <Link
             key={item.name}
             to={item.path}
-            onClick={onClose} // auto-close sidebar on link click (mobile)
-            className={`py-2 px-3 rounded-md text-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-yellow-200 hover:bg-yellow-200 ${
-              pathname === item.path ? "bg-yellow-400 dark:hover:bg-yellow-400 font-semibold" : ""
-            }`}
+            onClick={onClose}
+            className={`py-2 px-3 rounded-md text-gray-700 dark:text-white 
+        hover:bg-yellow-200 dark:hover:bg-yellow-200 
+        ${pathname === item.path ? "bg-yellow-400 font-semibold" : ""}`}
           >
             {item.name}
           </Link>
         ))}
       </nav>
-       <hr className="my-6 border-gray-200" />
 
-      {/* Visual Stats Section */}
+      <hr className="my-6 border-gray-200" />
+
       <div className="px-6 pb-6 space-y-4">
         <h4 className="text-sm font-medium text-gray-500 uppercase">Quick Stats</h4>
         {quickStats.map((stat, index) => (
-          <div key={index} className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-md shadow-sm">
+          <div
+            key={index}
+            className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-md shadow-sm"
+          >
             <div className="flex items-center gap-2">
               <div className="text-lg">{stat.icon}</div>
               <div className="text-sm text-gray-600">{stat.label}</div>

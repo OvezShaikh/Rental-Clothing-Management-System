@@ -19,7 +19,7 @@ export default function ContactPage() {
                 {/* Contact Details */}
                 <div className="space-y-6">
                     <h2 className="text-2xl font-semibold">Contact Information</h2>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 dark:text-white">  
                         Feel free to reach out to us via phone or email. We typically respond within 24 hours.
                     </p>
                     <div className="space-y-3">

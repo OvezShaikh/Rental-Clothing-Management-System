@@ -4,7 +4,7 @@ import DashboardLayout from "../components/DashboardLayout";
 import { Squares2X2Icon, ListBulletIcon } from "@heroicons/react/24/solid";
 import { FcFolder, FcOpenedFolder } from "react-icons/fc";
 import useCategories from "../hooks/useCategories";
-import useItems from "../hooks/useItems";
+import useItems from "../hooks/useItems";   // ✅ Correct hook import
 
 const ITEMS_TO_SHOW = 4;
 
@@ -15,11 +15,15 @@ export default function Catalog() {
   const navigate = useNavigate();
 
   const { categories, loading: loadingCategories } = useCategories();
-  const { items, loading: loadingItems } = useItems();
+  const { items, loading: loadingItems } = useItems();  // ✅ Correct usage
 
-  const filteredProducts = selectedCategory === "All"
+  const filteredProducts =
+  selectedCategory === "All"
     ? items
-    : items.filter((item) => item.category.name === selectedCategory);
+    : items.filter((item) => {
+        const cat = categories.find((c) => c.id === item.category);
+        return cat?.name === selectedCategory;
+      });
 
   const visibleProducts = filteredProducts.slice(0, visibleCount);
 
@@ -36,24 +40,44 @@ export default function Catalog() {
     navigate(`/product/${product.id}`, { state: { product } });
   };
 
+  if (loadingCategories || loadingItems) {
+    return (
+      <DashboardLayout>
+        <p className="text-center text-gray-500">Loading...</p>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       <h1 className="text-2xl font-bold text-pink-600 mb-6">Catalog</h1>
 
       {/* Category Tabs */}
-      <div className="flex flex-wrap md:flex-wrap gap-3 mb-6 pb-2 md:overflow-x-auto md:scrollbar-thin md:scrollbar-thumb-gray-300">
+      <div className="flex flex-wrap gap-3 mb-6 pb-2 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300">
         <button
           onClick={() => handleCategoryChange("All")}
-          className={`flex flex-col items-center px-3 py-1 rounded-md whitespace-nowrap ${selectedCategory === "All" ? "bg-pink-100 text-pink-600" : "bg-gray-100 text-gray-700"}`}
+          className={`flex flex-col items-center px-3 py-1 rounded-md whitespace-nowrap ${
+            selectedCategory === "All"
+              ? "bg-pink-100 text-pink-600"
+              : "bg-gray-100 text-gray-700"
+          }`}
         >
-          {selectedCategory === "All" ? <FcOpenedFolder className="w-8 h-8 mb-1" /> : <FcFolder className="w-8 h-8 mb-1" />}
+          {selectedCategory === "All" ? (
+            <FcOpenedFolder className="w-8 h-8 mb-1" />
+          ) : (
+            <FcFolder className="w-8 h-8 mb-1" />
+          )}
           All
         </button>
         {categories.map((cat, idx) => (
           <button
             key={idx}
             onClick={() => handleCategoryChange(cat.name)}
-            className={`flex flex-col items-center px-3 py-1 rounded-md whitespace-nowrap ${selectedCategory === cat.name ? "bg-pink-100 text-pink-600" : "bg-gray-100 text-gray-700"}`}
+            className={`flex flex-col items-center px-3 py-1 rounded-md whitespace-nowrap ${
+              selectedCategory === cat.name
+                ? "bg-pink-100 text-pink-600"
+                : "bg-gray-100 text-gray-700"
+            }`}
           >
             <img
               src={cat.image || "https://via.placeholder.com/40"}
@@ -69,13 +93,21 @@ export default function Catalog() {
       <div className="flex justify-end mb-4 gap-2">
         <button
           onClick={() => setViewMode("grid")}
-          className={`p-2 rounded ${viewMode === "grid" ? "bg-pink-500 text-white" : "bg-gray-200 text-gray-700"}`}
+          className={`p-2 rounded ${
+            viewMode === "grid"
+              ? "bg-pink-500 text-white"
+              : "bg-gray-200 text-gray-700"
+          }`}
         >
           <Squares2X2Icon className="w-5 h-5" />
         </button>
         <button
           onClick={() => setViewMode("list")}
-          className={`p-2 rounded ${viewMode === "list" ? "bg-pink-500 text-white" : "bg-gray-200 text-gray-700"}`}
+          className={`p-2 rounded ${
+            viewMode === "list"
+              ? "bg-pink-500 text-white"
+              : "bg-gray-200 text-gray-700"
+          }`}
         >
           <ListBulletIcon className="w-5 h-5" />
         </button>
@@ -91,9 +123,9 @@ export default function Catalog() {
               className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition flex flex-col min-h-[22rem] cursor-pointer"
             >
               <img
-                src={item.image}
+                src={item.images?.length > 0 ? item.images[0].image : "https://via.placeholder.com/400"}
                 alt={item.name}
-                className="w-full h-52 sm:h-56 object-cover rounded-md mb-3"
+                className="w-full h-[400px] sm:h-[400px] object-cover rounded-md mb-3"
               />
 
               <div className="flex-1 flex flex-col">
@@ -118,7 +150,7 @@ export default function Catalog() {
               className="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition cursor-pointer"
             >
               <img
-                src={item.image}
+                src={item.images?.length > 0 ? item.images[0].image : "https://via.placeholder.com/150"}
                 alt={item.name}
                 className="w-full sm:w-32 sm:h-32 object-cover rounded-md"
               />
@@ -140,7 +172,9 @@ export default function Catalog() {
       )}
 
       {visibleProducts.length === 0 && (
-        <p className="text-gray-500 col-span-full text-center mt-4">No products found.</p>
+        <p className="text-gray-500 col-span-full text-center mt-4">
+          No products found.
+        </p>
       )}
 
       {visibleCount < filteredProducts.length && (

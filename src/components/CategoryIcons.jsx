@@ -32,7 +32,7 @@ const CategoryIcons = () => {
             className="flex flex-col items-center text-center min-w-[70px] hover:scale-105 transition-transform duration-200"
           >
             <img
-              src={cat.icon || images.cremejacket} // fallback image
+              src={cat.image || images.cremejacket} // fallback image
               alt={cat.name}
               className="w-16 h-16 mb-2 object-cover rounded-full shadow-sm"
             />

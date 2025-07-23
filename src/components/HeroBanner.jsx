@@ -5,30 +5,28 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
-
 import { images } from "../constants/images";
 
 const bannerSlides = [
   {
     title: "Premium Blazers for Rent",
     subtitle: "Perfect for interviews, meetings, and weddings",
-    image: images.brownjacket, // replace with your blazer image
+    image: images.brownjacket,
     bg: "bg-[#F0F4FF]",
   },
   {
     title: "Stylish Jackets On Demand",
     subtitle: "Stay warm and trendy without the investment",
-    image: images.cremejacket, // replace with your jacket image
+    image: images.cremejacket,
     bg: "bg-[#FFF5F5]",
   },
   {
     title: "All-Occasion Clothes Rental",
     subtitle: "Rent outfits for parties, dates, or casual outings",
-    image: images.all, // replace with your general clothing image
+    image: images.all,
     bg: "bg-[#F5FFF9]",
   },
 ];
-
 
 const HeroBanner = () => {
   const prevRef = useRef(null);
@@ -37,7 +35,7 @@ const HeroBanner = () => {
   return (
     <div className="relative w-full">
       {/* Custom buttons */}
-      <div className="absolute top-1/2 -translate-y-1/2 left-2 z-10">
+      <div className="absolute top-1/2 -translate-y-1/2 left-2 z-20 hidden sm:block">
         <button
           ref={prevRef}
           className="bg-white p-2 rounded-full shadow hover:bg-indigo-100"
@@ -45,7 +43,7 @@ const HeroBanner = () => {
           <ChevronLeftIcon className="w-5 h-5 text-gray-700" />
         </button>
       </div>
-      <div className="absolute top-1/2 -translate-y-1/2 right-2 z-10">
+      <div className="absolute top-1/2 -translate-y-1/2 right-2 z-20 hidden sm:block">
         <button
           ref={nextRef}
           className="bg-white p-2 rounded-full shadow hover:bg-indigo-100"
@@ -71,14 +69,30 @@ const HeroBanner = () => {
       >
         {bannerSlides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <div className={`${slide.bg} h-[450px] w-full lg:flex`}>
+            <div
+              className={`${slide.bg} h-[450px] w-full flex flex-col lg:flex-row items-center relative`}
+            >
+              {/* Background image only on mobile */}
+              <div
+                className="absolute inset-0 lg:hidden"
+                style={{
+                  backgroundImage: `url(${slide.image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                }}
+              ></div>
+              <div className="lg:hidden sm:justify-center sm:text-center absolute inset-0 bg-black/40"></div>
+
               {/* Left content */}
-              <div className="lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 space-y-4">
-                <h2 className="text-3xl sm:text-5xl font-bold text-gray-900">
+              <div className="relative z-10 lg:w-1/2 flex flex-col justify-center items-center lg:items-start px-6 sm:px-14 sm:text-wrap space-y-4 text-center lg:text-left h-full">
+                <h2 className="text-3xl sm:text-5xl font-bold text-white lg:text-black">
                   {slide.title}
                 </h2>
-                <p className="text-gray-600 text-lg">{slide.subtitle}</p>
-                <div className="flex gap-4 mt-2">
+                <p className="text-lg text-gray-200 lg:text-gray-600">
+                  {slide.subtitle}
+                </p>
+                <div className="flex gap-4 mt-2 justify-center lg:justify-start">
                   <button className="bg-indigo-600 text-white px-5 py-3 rounded-md text-sm hover:bg-indigo-700">
                     Browse Now
                   </button>
@@ -88,8 +102,8 @@ const HeroBanner = () => {
                 </div>
               </div>
 
-              {/* Right image */}
-              <div className="lg:w-1/2 h-full">
+              {/* Right image for desktop only */}
+              <div className="hidden lg:block lg:w-1/2 h-full">
                 <img
                   src={slide.image}
                   alt={slide.title}
