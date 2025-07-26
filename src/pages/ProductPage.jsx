@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { FaStar, FaHeart, FaShareAlt } from "react-icons/fa";
+import { useParams, useNavigate } from "react-router-dom";
+import { FaStar, FaHeart, FaShareAlt, FaShoppingCart } from "react-icons/fa";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -8,6 +8,7 @@ import Footer from "../components/Footer";
 const sizes = ["S", "M", "L", "XL", "XXL"];
 
 export default function ProductPage() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState("M");
@@ -120,8 +121,8 @@ export default function ProductPage() {
                     key={size}
                     onClick={() => setSelectedSize(size)}
                     className={`px-4 py-2 border rounded-lg ${selectedSize === size
-                        ? "bg-pink-600 text-white"
-                        : "bg-white text-gray-700"
+                      ? "bg-pink-600 text-white"
+                      : "bg-white text-gray-700"
                       }`}
                   >
                     {size}
@@ -131,8 +132,26 @@ export default function ProductPage() {
             </div>
 
             <div className="flex gap-4 mt-6">
-              <button className="bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700">
-                Rent Now
+              <button
+                onClick={() =>
+                  navigate("/cart", {
+                    state: {
+                      item: {
+                        id: product.id,
+                        name: product.name,
+                        price: product.daily_rate,
+                        size: selectedSize,
+                        image: mainImage,
+                      },
+                    },
+                  })
+                }
+                className="group flex items-center justify-center gap-2 
+             bg-pink-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg 
+             hover:bg-pink-700 transition-all duration-200 text-sm sm:text-base"
+              >
+                <FaShoppingCart className="text-base sm:text-lg transform transition-transform duration-500 ease-out group-hover:scale-125 group-hover:rotate-6" />
+                <span>Add to Cart</span>
               </button>
               <button className="bg-gray-100 px-5 py-3 rounded-lg flex items-center gap-2 hover:bg-gray-200">
                 <FaHeart /> Wishlist

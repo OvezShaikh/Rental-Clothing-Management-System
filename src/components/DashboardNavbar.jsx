@@ -14,7 +14,7 @@ export default function DashboardNavbar({ toggleSidebar }) {
       {/* Navigation Links */}
       <div className="flex space-x-6">
         <Link
-          to="/dashboard"
+          to="/"
           className="text-gray-700 dark:text-gray-200 hover:text-pink-600"
         >
           Home

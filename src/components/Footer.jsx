@@ -6,7 +6,7 @@ import logo from '../assets/logo.svg';
 const Footer = () => {
   const quickLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Browse Collection', path: '/products' },
+    { name: 'Browse Collection', path: '/catalog' },
     { name: 'How It Works', path: '/how-it-works' },
     { name: 'About Us', path: '/about' },
     { name: 'FAQs', path: '/faq' },

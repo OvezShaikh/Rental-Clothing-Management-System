@@ -15,11 +15,13 @@ import ProductPage from "./pages/ProductPage";
 import ProtectedRoute from "./components/ProtectedRoute"; // Import ProtectedRoute component
 import Logout from "./pages/Logout"; // Import Logout component
 import ContactPage from "./pages/ContactPage"; // Import ContactPage component
+import CartPage from "./pages/CartPage";
+import PaymentPage from "./pages/PaymentPage";
 
 function App() {
   return (
     <BrowserRouter>
-    <ScrollToTop />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
@@ -34,6 +36,8 @@ function App() {
         <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/payment" element={<PaymentPage />} />
         {/* Add more routes as needed */}
       </Routes>
     </BrowserRouter>
