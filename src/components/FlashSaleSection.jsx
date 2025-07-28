@@ -91,7 +91,7 @@ const FlashSaleSection = () => {
       >
         {flashProducts.map((item, index) => (
           <SwiperSlide key={index}>
-            <div className="bg-gray-50 shadow rounded-lg p-4">
+            <div className="bg-gray-100 shadow-lg rounded-lg p-4">
               <img
                 src={item.image}
                 alt={item.name}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../components/DashboardLayout";
 import { Squares2X2Icon, ListBulletIcon } from "@heroicons/react/24/solid";
@@ -16,6 +16,13 @@ export default function Catalog() {
 
   const { categories, loading: loadingCategories } = useCategories();
   const { items, loading: loadingItems } = useItems();
+
+  // set default view as list for small screens
+  useEffect(() => {
+    if (window.innerWidth < 640) {
+      setViewMode("list");
+    }
+  }, []);
 
   const filteredProducts =
     selectedCategory === "All"
@@ -47,7 +54,7 @@ export default function Catalog() {
           id: item.id,
           name: item.name,
           price: item.daily_rate,
-          size: "M", // default size since catalog doesn't have size selection
+          size: "M",
           image:
             item.images?.length > 0
               ? item.images[0].image
@@ -70,12 +77,14 @@ export default function Catalog() {
       <h1 className="text-2xl font-bold text-pink-600 mb-6">Catalog</h1>
 
       {/* Category Tabs */}
-      <div className="flex flex-wrap gap-3 mb-6 pb-2 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300">
+      <div className="flex sm:flex-wrap sm:overflow-x-auto sm:no-scrollbar flex-wrap md:flex-wrap gap-4 mb-6 pb-2">
+        {/* All Button */}
         <button
           onClick={() => handleCategoryChange("All")}
-          className={`flex flex-col items-center px-3 py-1 rounded-md whitespace-nowrap ${selectedCategory === "All"
-            ? "bg-pink-100 text-pink-600"
-            : "bg-gray-100 text-gray-700"
+          className={`flex flex-col items-center px-2 py-3 rounded-md whitespace-normal w-24 h-22 
+    ${selectedCategory === "All"
+              ? "bg-pink-100 text-pink-600"
+              : "bg-gray-100 text-gray-700"
             }`}
         >
           {selectedCategory === "All" ? (
@@ -83,15 +92,17 @@ export default function Catalog() {
           ) : (
             <FcFolder className="w-8 h-8 mb-1" />
           )}
-          All
+          <span className="text-center text-xs leading-tight truncate">{`All`}</span>
         </button>
+
         {categories.map((cat, idx) => (
           <button
             key={idx}
             onClick={() => handleCategoryChange(cat.name)}
-            className={`flex flex-col items-center px-3 py-1 rounded-md whitespace-nowrap ${selectedCategory === cat.name
-              ? "bg-pink-100 text-pink-600"
-              : "bg-gray-100 text-gray-700"
+            className={`flex flex-col items-center px-3 py-2 justify-center sm:py-1 rounded-md whitespace-normal sm:w-22 sm:h-22 
+        ${selectedCategory === cat.name
+                ? "bg-pink-100 text-pink-600"
+                : "bg-gray-100 text-gray-700"
               }`}
           >
             <img
@@ -99,10 +110,13 @@ export default function Catalog() {
               alt={cat.name}
               className="w-8 h-8 mb-1 object-cover rounded-full"
             />
-            {cat.name}
+            <span className="text-center text-xs leading-tight break-words whitespace-normal w-20 px-1">
+              {cat.name}
+            </span>
           </button>
         ))}
       </div>
+
 
       {/* View Toggle */}
       <div className="flex justify-end mb-4 gap-2">
@@ -132,11 +146,21 @@ export default function Catalog() {
           {visibleProducts.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition flex flex-col min-h-[22rem]"
-            ><div
-              className="cursor-pointer"
-              onClick={() => handleGoToProduct(item)}
+              className="relative bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition flex flex-col min-h-[22rem]"
             >
+              {/* Ribbon for featured products */}
+              <div className="absolute top-0 right-0 overflow-hidden w-20 h-20 pointer-events-none">
+                <div
+                  className={`absolute top-2 right-[-40px] w-[140px] rotate-45 text-white text-xs font-bold py-1 text-center shadow-md 
+                  ${item.available ? "bg-pink-500" : "bg-gray-500"}`}
+                >
+                  {item.available ? "Featured" : "Booked"}
+                </div>
+              </div>
+              <div
+                className="cursor-pointer"
+                onClick={() => handleGoToProduct(item)}
+              >
                 <img
                   src={
                     item.images?.length > 0
@@ -144,7 +168,7 @@ export default function Catalog() {
                       : "https://via.placeholder.com/400"
                   }
                   alt={item.name}
-                  className="w-full h-[400px] sm:h-[400px] object-cover rounded-md mb-3"
+                  className="w-full h-[400px] object-cover rounded-md mb-3"
                 />
               </div>
               <div className="flex-1 flex flex-col">
@@ -175,8 +199,22 @@ export default function Catalog() {
           {visibleProducts.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition"
+              className="flex flex-row items-center gap-4 bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition relative"
             >
+              {/* Ribbon */}
+              <div className="absolute top-2 left-2">
+                {item.available ? (
+                  <span className="bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded">
+                    Featured
+                  </span>
+                ) : (
+                  <span className="bg-gray-500 text-white text-xs font-bold px-2 py-1 rounded">
+                    Booked
+                  </span>
+                )}
+              </div>
+
+              {/* Image */}
               <div
                 className="cursor-pointer"
                 onClick={() => handleGoToProduct(item)}
@@ -188,34 +226,31 @@ export default function Catalog() {
                       : "https://via.placeholder.com/150"
                   }
                   alt={item.name}
-                  className="w-full sm:w-32 sm:h-32 object-cover rounded-md"
+                  className="w-24 h-24 object-cover rounded-md flex-shrink-0"
                 />
               </div>
-              <div className="flex-1 flex flex-col justify-between h-full min-h-[8rem] sm:min-h-0">
-                <div className="mb-2">
-                  <h2 className="text-lg font-semibold dark:text-black">
-                    {item.name}
-                  </h2>
-                  <p className="text-pink-600 font-semibold">
-                    ₹{item.daily_rate}
-                  </p>
-                </div>
-                <div className="mt-auto">
-                  <button
-                    onClick={() => handleAddToCart(item)}
-                    className="px-4 py-1 rounded text-white w-max relative overflow-hidden 
-                               bg-gradient-to-r from-pink-500 to-fuchsia-500 
-                               hover:from-pink-600 hover:to-fuchsia-600 transition-all duration-300"
-                  >
-                    <span className="relative z-10">Rent Now</span>
-                    <span className="absolute inset-0 bg-white opacity-20 transform -skew-x-12 
-                                    translate-x-[-100%] hover:translate-x-[200%] transition-all duration-700"></span>
-                  </button>
-                </div>
+
+              {/* Details */}
+              <div className="flex-1 flex flex-col justify-between h-full">
+                <h2 className="text-lg font-semibold dark:text-black">
+                  {item.name}
+                </h2>
+                <p className="text-pink-600 font-semibold">₹{item.daily_rate}</p>
+                <button
+                  onClick={() => handleAddToCart(item)}
+                  className="mt-2 px-4 py-1 rounded text-white w-max relative overflow-hidden 
+                     bg-gradient-to-r from-pink-500 to-fuchsia-500 
+                     hover:from-pink-600 hover:to-fuchsia-600 transition-all duration-300"
+                >
+                  <span className="relative z-10">Rent Now</span>
+                  <span className="absolute inset-0 bg-white opacity-20 transform -skew-x-12 
+                          translate-x-[-100%] hover:translate-x-[200%] transition-all duration-700"></span>
+                </button>
               </div>
             </div>
           ))}
         </div>
+
       )}
 
       {visibleProducts.length === 0 && (

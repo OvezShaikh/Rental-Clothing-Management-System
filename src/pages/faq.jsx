@@ -37,27 +37,29 @@ const faqs = [
 
 export default function FAQ() {
   return (
-    <>
+    <div className="bg-white dark:bg-gray-800 min-h-screen transition-colors duration-300">
       <Navbar />
       <div className="max-w-4xl mx-auto px-4 py-10">
-        <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">
+        <h1 className="text-3xl font-bold text-center text-blue-700 dark:text-blue-400 mb-8">
           Frequently Asked Questions
         </h1>
         <div className="space-y-6">
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="bg-white rounded-xl shadow p-4 border border-gray-200"
+              className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 border border-gray-200 dark:border-gray-700 transition-colors duration-300"
             >
-              <h2 className="text-lg font-semibold text-gray-800">
+              <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
                 {faq.question}
               </h2>
-              <p className="mt-2 text-gray-600">{faq.answer}</p>
+              <p className="mt-2 text-gray-600 dark:text-gray-300">
+                {faq.answer}
+              </p>
             </div>
           ))}
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
