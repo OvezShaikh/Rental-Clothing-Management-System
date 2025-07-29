@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { FaStar, FaHeart, FaShareAlt, FaShoppingCart } from "react-icons/fa";
+import { FaStar, FaHeart, FaShareAlt, FaShoppingCart, FaShoppingBag } from "react-icons/fa";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -63,11 +63,12 @@ export default function ProductPage() {
   return (
     <>
       <Navbar />
-      <div className="max-w-7xl mx-auto p-6 bg-white">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <div className="max-w-7xl mx-auto p-4 sm:p-6 bg-white">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
           {/* Product Images */}
-          <div className="flex gap-4">
-            <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
+            {/* Thumbnails (Desktop - side) */}
+            <div className="hidden md:flex md:flex-col gap-2">
               {product.images.map((img, index) => (
                 <img
                   key={index}
@@ -79,6 +80,8 @@ export default function ProductPage() {
                 />
               ))}
             </div>
+
+            {/* Main Image */}
             <div
               className="relative border rounded-xl overflow-hidden w-full"
               onMouseEnter={() => setShowZoom(true)}
@@ -88,7 +91,7 @@ export default function ProductPage() {
               <img src={mainImage} alt="Main" className="w-full object-cover" />
               {showZoom && (
                 <div
-                  className="absolute top-0 left-full ml-4 w-80 h-80 border overflow-hidden hidden lg:block"
+                  className="absolute top-0 left-full ml-4 w-40 h-40 sm:w-60 sm:h-60 lg:w-80 lg:h-80 border overflow-hidden hidden lg:block"
                   style={{
                     backgroundImage: `url(${mainImage})`,
                     backgroundSize: "200%",
@@ -98,29 +101,50 @@ export default function ProductPage() {
                 ></div>
               )}
             </div>
+
+            {/* Thumbnails (Tablet - below main image) */}
+            <div className="flex gap-2 mt-2 md:hidden overflow-x-auto">
+              {product.images.map((img, index) => (
+                <img
+                  key={index}
+                  src={img.image}
+                  alt={`thumb-${index}`}
+                  onClick={() => setMainImage(img.image)}
+                  className={`h-20 w-20 object-cover rounded-lg border cursor-pointer flex-shrink-0 ${mainImage === img.image ? "border-pink-500" : "border-gray-300"
+                    }`}
+                />
+              ))}
+            </div>
           </div>
 
           {/* Product Info */}
           <div className="space-y-4">
-            <h1 className="text-3xl font-bold text-gray-800">{product.name}</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">{product.name}</h1>
             <div className="flex items-center gap-2 text-yellow-500">
               {[...Array(5)].map((_, i) => (
                 <FaStar key={i} />
               ))}
-              <span className="text-sm text-gray-500 ml-2">4.9 (188 reviews)</span>
+              <span className="text-xs sm:text-sm text-gray-500 ml-2">
+                4.9 (188 reviews)
+              </span>
             </div>
 
-            <div className="text-xl text-pink-600 font-semibold">₹{product.daily_rate}</div>
-            <p className="text-gray-600">Rent for 3 days — includes return pickup</p>
+            <div className="text-lg sm:text-xl text-pink-600 font-semibold">
+              ₹{product.daily_rate}
+            </div>
+            <p className="text-gray-600 text-sm sm:text-base">
+              Rent for 3 days — includes return pickup
+            </p>
 
+            {/* Size Selector */}
             <div>
-              <p className="font-medium text-sm text-gray-700 mb-2">Select Size:</p>
-              <div className="flex gap-2">
+              <p className="font-medium text-xs sm:text-sm text-gray-700 mb-2">Select Size:</p>
+              <div className="flex gap-2 flex-wrap">
                 {sizes.map((size) => (
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
-                    className={`px-4 py-2 border rounded-lg ${selectedSize === size
+                    className={`px-3 py-1 sm:px-4 sm:py-2 border rounded-lg text-sm ${selectedSize === size
                       ? "bg-pink-600 text-white"
                       : "bg-white text-gray-700"
                       }`}
@@ -131,7 +155,8 @@ export default function ProductPage() {
               </div>
             </div>
 
-            <div className="flex gap-4 mt-6">
+            {/* Action Buttons */}
+            <div className="flex flex-wrap gap-3 sm:gap-4 xs:grid-col-2 mt-6 justify-center sm:justify-start">
               <button
                 onClick={() =>
                   navigate("/cart", {
@@ -148,25 +173,48 @@ export default function ProductPage() {
                 }
                 className="group flex items-center justify-center gap-2 
              bg-pink-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg 
-             hover:bg-pink-700 transition-all duration-200 text-sm sm:text-base"
+             hover:bg-pink-700 transition-all duration-200 text-sm sm:text-base w-full sm:w-auto"
               >
-                <FaShoppingCart className="text-base sm:text-lg transform transition-transform duration-500 ease-out group-hover:scale-125 group-hover:rotate-6" />
+                <FaShoppingCart className="text-base sm:text-lg transform transition-transform duration-500 ease-out group-hover:scale-125 group-hover:rotate-12" />
                 <span>Add to Cart</span>
               </button>
-              <button className="bg-gray-100 px-5 py-3 rounded-lg flex items-center gap-2 hover:bg-gray-200">
+              <button
+                onClick={() =>
+                  navigate("/payment", {
+                    state: {
+                      item: {
+                        id: product.id,
+                        name: product.name,
+                        price: product.daily_rate,
+                        size: selectedSize,
+                        image: mainImage,
+                      },
+                    },
+                  })
+                }
+                className="group flex items-center justify-center gap-2 
+              bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg 
+              hover:bg-green-700 transition-all duration-200 text-sm sm:text-base w-full sm:w-auto"
+              >
+                <FaShoppingBag className="text-base sm:text-lg transform transition-transform duration-500 ease-out group-hover:scale-125 group-hover:rotate-12" />
+                <span>Buy Now</span>
+              </button>
+
+              <button className="bg-gray-100 px-4 w-1/3 justify-center sm:w-auto sm:px-5 py-2 sm:py-3 rounded-lg flex flew-row sm:flew-row items-center gap-1 hover:bg-gray-200 text-sm sm:text-base">
                 <FaHeart /> Wishlist
               </button>
               <button
                 onClick={handleShare}
-                className="bg-gray-100 px-5 py-3 rounded-lg flex items-center gap-2 hover:bg-gray-200"
+                className="bg-gray-100 px-4 w-1/3 justify-center sm:w-auto sm:px-5 py-2 sm:py-3 rounded-lg flex flew-row sm:flew-row items-center gap-1 hover:bg-gray-200 text-sm sm:text-base"
               >
-                <FaShareAlt /> Share
+                <FaShareAlt />Share
               </button>
             </div>
 
             <div className="mt-6 border-t pt-4">
-              <p className="text-sm text-gray-500">
-                Location: <span className="text-gray-700">Mumbai</span> | Delivery in: <span className="text-gray-700">1–2 Days</span>
+              <p className="text-xs sm:text-sm text-gray-500">
+                Location: <span className="text-gray-700">Mumbai</span> | Delivery in:{" "}
+                <span className="text-gray-700">1–2 Days</span>
               </p>
             </div>
           </div>
@@ -174,15 +222,21 @@ export default function ProductPage() {
 
         {/* Tabs Section */}
         <div className="mt-10 border-t pt-6">
-          <div className="flex gap-6 text-gray-600 text-sm font-medium border-b pb-2">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 text-gray-600 text-sm font-medium border-b pb-2">
             <button
-              className={`pb-2 ${activeTab === "description" ? "text-pink-600 border-b-2 border-pink-600" : "hover:text-pink-600"}`}
+              className={`pb-2 ${activeTab === "description"
+                ? "text-pink-600 border-b-2 border-pink-600"
+                : "hover:text-pink-600"
+                }`}
               onClick={() => setActiveTab("description")}
             >
               Description
             </button>
             <button
-              className={`pb-2 ${activeTab === "reviews" ? "text-pink-600 border-b-2 border-pink-600" : "hover:text-pink-600"}`}
+              className={`pb-2 ${activeTab === "reviews"
+                ? "text-pink-600 border-b-2 border-pink-600"
+                : "hover:text-pink-600"
+                }`}
               onClick={() => setActiveTab("reviews")}
             >
               Reviews
@@ -192,13 +246,13 @@ export default function ProductPage() {
           <div className="mt-4">
             {activeTab === "description" && (
               <>
-                <h2 className="text-lg font-semibold mb-2">Product Details</h2>
-                <p className="text-gray-600">{product.description}</p>
+                <h2 className="text-base sm:text-lg font-semibold mb-2">Product Details</h2>
+                <p className="text-gray-600 text-sm sm:text-base">{product.description}</p>
               </>
             )}
 
             {activeTab === "reviews" && (
-              <div className="text-gray-600">
+              <div className="text-gray-600 text-sm sm:text-base">
                 <p>No reviews yet. Be the first to rent and review this item!</p>
               </div>
             )}

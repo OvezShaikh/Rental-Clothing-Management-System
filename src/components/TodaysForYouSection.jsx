@@ -70,10 +70,10 @@ const TodaysForYouSection = () => {
   return (
     <div className="bg-white py-10 px-4 sm:px-12 dark:bg-gray-800 dark:text-white">
       <div className="mb-6 flex justify-between items-center">
-        <h2 className="text-2xl font-semibold text-gray-800">
+        <h2 className="text-2xl font-semibold text-gray-800 dark:text-white sm:text-xl">
           Today's For You
         </h2>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-3 lg:gap-3">
           {tabs.map((tab) => (
             <button
               key={tab}
