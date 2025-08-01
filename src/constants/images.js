@@ -19,6 +19,10 @@ import forhim from "../assets/forhim.jpg";
 import forher from "../assets/forher.jpg";
 import homeforhim from "../assets/homeforhim.jpg";
 import homeforher from "../assets/homeforher.jpg";
+import rentalprocessimg from "../assets/rentalprocessimg.jpg"; 
+import paperTexture from "../assets/paperTexture.jpg";
+import IMG_7340 from "../assets/IMG_7340.jpg";
+import IMG_7355 from "../assets/IMG_7355.jpg";
 
 export const images = {
   brownjacket, 
@@ -42,5 +46,8 @@ export const images = {
   forher,
   homeforhim,
   homeforher,
-
+  rentalprocessimg,
+  paperTexture,
+  IMG_7340,
+  IMG_7355,
 }

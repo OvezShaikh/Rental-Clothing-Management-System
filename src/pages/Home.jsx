@@ -6,6 +6,8 @@ import CategoryIcons from "../components/CategoryIcons";
 import FlashSaleSection from "../components/FlashSaleSection";
 import TodaysForYouSection from "../components/TodaysForYouSection";
 import GenderCategorySection from "../components/GenderCategorySection";
+import ServiceHighlights from "../components/ServiceHighlights";
+import RentalProcess from "../components/RentalProcess";
 // import ProductCard from "../components/ProductCard"; // Can be used for later sections
 // import ProductQuickView from "../components/ProductQuickView";
 // import BentoGrid from "../components/BentoGrid";
@@ -38,7 +40,20 @@ const Home = () => {
       <HeroBanner />
       <CategoryIcons />
       <GenderCategorySection />
+      <ServiceHighlights />
+
+      {/* Placeholder for BentoGrid or ProductCard if needed */}
+      {/* <BentoGrid /> */}
+      {/* <ProductCard onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} /> */}
+      {/* <ProductQuickView open={quickViewOpen} product={activeProduct} onClose={() => setQuickViewOpen(false)} /> */}
+
+      {/* Flash Sale Section */}
       <FlashSaleSection />
+      {/* Rental Process Section */}
+      <RentalProcess />
+
+      {/* Future sections to add below: */}
+      {/* <BestSellingStores /> */}
 
       {/* Future sections to add below: */}
       <TodaysForYouSection />

@@ -1,18 +1,25 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { DateRange } from "react-date-range";
+import { addDays, format } from "date-fns";
+import "react-date-range/dist/styles.css"; // main css
+import "react-date-range/dist/theme/default.css"; // theme css
 
 export default function CartPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const initialItem = location.state?.item;
 
-  // Fetch cart from localStorage
+  // Example booked dates (should come from backend)
+  const bookedDates = [
+    { startDate: new Date(2025, 7, 2), endDate: new Date(2025, 7, 5) },
+  ];
+
   const [cartItems, setCartItems] = useState(() => {
     const storedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
     if (initialItem) {
-      // Check if item with same id & size already exists -> update rental days to default 3
       const exists = storedCart.find(
         (i) => i.id === initialItem.id && i.size === initialItem.size
       );
@@ -23,22 +30,24 @@ export default function CartPage() {
     return storedCart;
   });
 
-  // Save to localStorage when cart changes
+  const [openCalendarIndex, setOpenCalendarIndex] = useState(null);
+
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  // Update rental days
-  const updateRentalDays = (index, days) => {
-    if (days < 1) return;
+  const handleDateChange = (ranges, index) => {
     const updated = [...cartItems];
-    updated[index].rentalDays = days;
+    updated[index].selectedDates = ranges.selection;
+    updated[index].rentalDays =
+      (ranges.selection.endDate - ranges.selection.startDate) /
+        (1000 * 60 * 60 * 24) +
+      1; // update rental days automatically
     setCartItems(updated);
   };
 
   const removeItem = (index) => {
-    const updated = cartItems.filter((_, i) => i !== index);
-    setCartItems(updated);
+    setCartItems(cartItems.filter((_, i) => i !== index));
   };
 
   const clearCart = () => {
@@ -62,6 +71,29 @@ export default function CartPage() {
     });
   };
 
+  const disabledDates = bookedDates.flatMap((b) => {
+    const days = [];
+    let current = new Date(b.startDate);
+    while (current <= b.endDate) {
+      days.push(new Date(current));
+      current.setDate(current.getDate() + 1);
+    }
+    return days;
+  });
+
+  const calendarRef = useRef();
+
+  // Close calendar when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+        setOpenCalendarIndex(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -69,7 +101,6 @@ export default function CartPage() {
       <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md m-6">
         <h1 className="text-2xl font-bold mb-4">Your Cart</h1>
 
-        {/* --- Empty Cart --- */}
         {cartItems.length === 0 ? (
           <div className="text-center py-20">
             <img
@@ -89,48 +120,83 @@ export default function CartPage() {
           </div>
         ) : (
           <>
-            {/* --- Cart Items --- */}
-            {cartItems.map((item, index) => (
-              <div
-                key={`${item.id}-${item.size}`}
-                className="flex gap-6 items-center border-b pb-4 mb-4"
-              >
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-32 h-32 object-cover rounded-lg"
-                />
-                <div className="flex-1">
-                  <h2 className="text-xl font-semibold">{item.name}</h2>
-                  <p className="text-gray-600">Size: {item.size}</p>
-                  <div className="flex items-center gap-2 mt-2">
-                    <label className="font-medium">Rental Days:</label>
-                    <input
-                      type="number"
-                      min={1}
-                      value={item.rentalDays}
-                      onChange={(e) =>
-                        updateRentalDays(index, Number(e.target.value))
-                      }
-                      className="w-20 border rounded px-2 py-1"
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col items-end gap-2">
-                  <div className="text-xl font-semibold text-pink-600">
-                    ₹{item.price * item.rentalDays}
-                  </div>
-                  <button
-                    onClick={() => removeItem(index)}
-                    className="text-sm text-red-500 hover:underline"
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            ))}
+            {cartItems.map((item, index) => {
+              const selected = item.selectedDates || {
+                startDate: new Date(),
+                endDate: addDays(new Date(), 3),
+                key: "selection",
+              };
 
-            {/* --- Summary --- */}
+              return (
+                <div
+                  key={`${item.id}-${item.size}`}
+                  className="flex gap-6 items-start border-b pb-4 mb-4 relative"
+                  ref={calendarRef}
+                >
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-32 h-32 object-cover rounded-lg"
+                  />
+                  <div className="flex-1">
+                    <h2 className="text-xl font-semibold">{item.name}</h2>
+                    <p className="text-gray-600">Size: {item.size}</p>
+
+                    {/* Date Field */}
+                    <div className="mt-3">
+                      <label className="font-medium">Rental Period:</label>
+                      <div
+                        onClick={() =>
+                          setOpenCalendarIndex(
+                            openCalendarIndex === index ? null : index
+                          )
+                        }
+                        className="border rounded px-3 py-2 mt-1 cursor-pointer bg-white hover:border-pink-500 w-64"
+                      >
+                        {`${format(selected.startDate, "dd/MM/yyyy")} - ${format(
+                          selected.endDate,
+                          "dd/MM/yyyy"
+                        )}`}
+                      </div>
+
+                      {openCalendarIndex === index && (
+                        <div className="absolute z-50 mt-2 bg-white shadow-lg rounded">
+                          <DateRange
+                            ranges={[selected]}
+                            onChange={(ranges) =>
+                              handleDateChange(ranges, index)
+                            }
+                            minDate={new Date()}
+                            disabledDates={disabledDates}
+                            rangeColors={["#ec4899"]}
+                          />
+                          <div className="flex justify-end p-2">
+                            <button
+                              onClick={() => setOpenCalendarIndex(null)}
+                              className="px-4 py-1 bg-pink-500 text-white rounded hover:bg-pink-600"
+                            >
+                              Done
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-2">
+                    <div className="text-xl font-semibold text-pink-600">
+                      ₹{item.price * item.rentalDays}
+                    </div>
+                    <button
+                      onClick={() => removeItem(index)}
+                      className="text-sm text-red-500 hover:underline"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+
             <div className="mt-4 flex justify-between items-center text-lg">
               <p>Security Deposit:</p>
               <p>₹{cartItems.length > 0 ? 500 : 0}</p>
@@ -140,7 +206,6 @@ export default function CartPage() {
               <p>₹{totalAmount}</p>
             </div>
 
-            {/* --- Buttons --- */}
             <div className="flex gap-4 mt-6">
               <button
                 onClick={clearCart}
