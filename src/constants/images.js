@@ -21,7 +21,7 @@ import homeforhim from "../assets/homeforhim.jpg";
 import homeforher from "../assets/homeforher.jpg";
 import rentalprocessimg from "../assets/rentalprocessimg.jpg"; 
 import paperTexture from "../assets/paperTexture.jpg";
-import imggreendress from "../assets/imggreendress.jpg";
+import greendress from "../assets/greendress.jpg";
 import whiteshervani from "../assets/whiteshervani.jpg";
 
 export const images = {
@@ -48,6 +48,6 @@ export const images = {
   homeforher,
   rentalprocessimg,
   paperTexture,
-  imggreendress,
+  greendress,
   whiteshervani,
 }

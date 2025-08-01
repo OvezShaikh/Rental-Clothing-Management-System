@@ -17,7 +17,7 @@ const productData = {
       name: "Evening Gown",
       category: "Women / Party",
       rent: 899,
-      image: images.imggreendress,
+      image: images.greendress,
     },
     {
       name: "Formal Blazer",
@@ -45,7 +45,7 @@ const productData = {
       name: "Evening Gown",
       category: "Women / Party",
       rent: 899,
-      image: images.imggreendress,
+      image: images.greendress,
     },
   ],
   Occasion: [
