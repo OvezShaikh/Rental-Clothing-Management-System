@@ -2,17 +2,17 @@ import { FaTruck, FaUndo, FaTags, FaCheckCircle, FaStore, FaMoneyBillWave } from
 
 export default function ServiceHighlights() {
   return (
-    <section className="bg-gray-200 dark:bg-gray-800 py-8 px-4 md:px-10 transition-colors duration-300">
+    <section className="bg-gray-200 dark:bg-gray-800 py-12 px-4 md:px-10 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         {/* Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-6">
+        {/* <div className="flex flex-wrap justify-center gap-4 mb-6">
           <button className="bg-black text-white py-2 px-6 rounded-md hover:bg-gray-800 transition dark:bg-white dark:text-black dark:hover:bg-gray-200">
             ON DEMAND
           </button>
           <button className="bg-pink-700 text-white py-2 px-6 rounded-md hover:bg-pink-800 transition dark:bg-pink-500 dark:hover:bg-pink-400">
             FASHION SUBSCRIPTION
           </button>
-        </div>
+        </div> */}
 
         {/* Highlights */}
         <div className="grid grid-cols-2 md:grid-cols-6 gap-4 text-center">

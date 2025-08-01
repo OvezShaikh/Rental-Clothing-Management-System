@@ -10,48 +10,51 @@ export default function RentalProcess() {
 
   return (
     <section
-      className="relative py-0 px-4 h-auto bg-cover bg-center text-gray-800 dark:text-white"
+      className="relative px-4 py-8 md:py-0 h-full bg-cover bg-center text-gray-800 dark:text-white"
       style={{
         backgroundImage: `url(${images.paperTexture})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="max-w-7xl mx-auto relative grid grid-cols-3 items-center">
-        {/* Left Side - Steps */}
-        <div className="flex flex-col items-start space-y-4">
-          {steps.map((step, index) => (
-            <div
-              key={index}
-              className="flex items-center bg-white rounded-md px-4 py-3 shadow w-full max-w-sm"
-            >
-              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[#e4d4b4] text-gray-800 font-semibold mr-4">
-                {index + 1}
-              </span>
-              <p className="text-gray-900 text-base font-medium">{step}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Center Image */}
-        <div className="flex justify-center">
-          <img
-            src={images.rentalprocessimg}
-            alt="Rental Process"
-            className="max-w-xs md:max-w-sm lg:max-w-md object-contain relative z-10"
-          />
-        </div>
-
-        {/* Right Heading */}
-        <div className="flex justify-center items-center">
-          <h2 className="text-right">
-            <span className="block text-7xl font-extrabold text-[#4A2E1E] font-playfair tracking-wide">
+      <div className="max-w-7xl mx-auto relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-center">
+        
+        {/* Right Heading (comes first on mobile) */}
+        <div className="flex justify-center items-center text-center md:text-right order-1 md:order-3">
+          <h2>
+            <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#4A2E1E] font-playfair tracking-wide">
               RENTAL
             </span>
-            <span className="block text-4xl text-start font-light text-[#4A2E1E] font-playfair">
+            <span className="block text-2xl sm:text-3xl md:text-4xl font-light text-[#4A2E1E] font-playfair mt-2">
               Process
             </span>
           </h2>
+        </div>
+
+        {/* Center Image */}
+        <div className="flex justify-center order-2">
+          <img
+            src={images.rentalprocessimg}
+            alt="Rental Process"
+            className="w-40 sm:w-56 md:w-64 lg:w-72 object-contain relative z-10"
+          />
+        </div>
+
+        {/* Left Side - Steps (comes last on mobile) */}
+        <div className="flex flex-col items-center md:items-start space-y-4 order-3 md:order-1">
+          {steps.map((step, index) => (
+            <div
+              key={index}
+              className="flex items-center bg-white rounded-md px-3 py-2 shadow w-full max-w-xs sm:max-w-sm"
+            >
+              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[#e4d4b4] text-gray-800 font-semibold mr-4 text-sm sm:text-base">
+                {index + 1}
+              </span>
+              <p className="text-gray-900 text-sm sm:text-base font-medium">
+                {step}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

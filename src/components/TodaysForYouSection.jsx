@@ -11,13 +11,13 @@ const productData = {
       name: "Men's Sherwani",
       category: "Men / Wedding",
       rent: 799,
-      image: images.IMG_7355,
+      image: images.whiteshervani,
     },
     {
       name: "Evening Gown",
       category: "Women / Party",
       rent: 899,
-      image: images.IMG_7340,
+      image: images.imggreendress,
     },
     {
       name: "Formal Blazer",
@@ -31,7 +31,7 @@ const productData = {
       name: "Men's Sherwani",
       category: "Men / Wedding",
       rent: 799,
-      image: images.IMG_7355,
+      image: images.whiteshervani,
     },
     {
       name: "Formal Blazer",
@@ -45,7 +45,7 @@ const productData = {
       name: "Evening Gown",
       category: "Women / Party",
       rent: 899,
-      image: images.IMG_7340,
+      image: images.imggreendress,
     },
   ],
   Occasion: [

@@ -17,7 +17,6 @@ export default function Catalog() {
   const { categories, loading: loadingCategories } = useCategories();
   const { items, loading: loadingItems } = useItems();
 
-  // set default view as list for small screens
   useEffect(() => {
     if (window.innerWidth < 640) {
       setViewMode("list");
@@ -28,9 +27,9 @@ export default function Catalog() {
     selectedCategory === "All"
       ? items
       : items.filter((item) => {
-        const cat = categories.find((c) => c.id === item.category);
-        return cat?.name === selectedCategory;
-      });
+          const cat = categories.find((c) => c.id === item.category);
+          return cat?.name === selectedCategory;
+        });
 
   const visibleProducts = filteredProducts.slice(0, visibleCount);
 
@@ -78,13 +77,13 @@ export default function Catalog() {
 
       {/* Category Tabs */}
       <div className="flex sm:flex-wrap sm:overflow-x-auto sm:no-scrollbar flex-wrap md:flex-wrap gap-4 mb-6 pb-2">
-        {/* All Button */}
         <button
           onClick={() => handleCategoryChange("All")}
           className={`flex flex-col items-center px-2 py-3 rounded-md whitespace-normal w-24 h-22 
-    ${selectedCategory === "All"
-              ? "bg-pink-100 text-pink-600"
-              : "bg-gray-100 text-gray-700"
+            ${
+              selectedCategory === "All"
+                ? "bg-pink-100 text-pink-600"
+                : "bg-gray-100 text-gray-700"
             }`}
         >
           {selectedCategory === "All" ? (
@@ -100,9 +99,10 @@ export default function Catalog() {
             key={idx}
             onClick={() => handleCategoryChange(cat.name)}
             className={`flex flex-col items-center px-3 py-2 justify-center sm:py-1 rounded-md whitespace-normal sm:w-22 sm:h-22 
-        ${selectedCategory === cat.name
-                ? "bg-pink-100 text-pink-600"
-                : "bg-gray-100 text-gray-700"
+              ${
+                selectedCategory === cat.name
+                  ? "bg-pink-100 text-pink-600"
+                  : "bg-gray-100 text-gray-700"
               }`}
           >
             <img
@@ -117,24 +117,25 @@ export default function Catalog() {
         ))}
       </div>
 
-
       {/* View Toggle */}
       <div className="flex justify-end mb-4 gap-2">
         <button
           onClick={() => setViewMode("grid")}
-          className={`p-2 rounded ${viewMode === "grid"
-            ? "bg-pink-500 text-white"
-            : "bg-gray-200 text-gray-700"
-            }`}
+          className={`p-2 rounded ${
+            viewMode === "grid"
+              ? "bg-pink-500 text-white"
+              : "bg-gray-200 text-gray-700"
+          }`}
         >
           <Squares2X2Icon className="w-5 h-5" />
         </button>
         <button
           onClick={() => setViewMode("list")}
-          className={`p-2 rounded ${viewMode === "list"
-            ? "bg-pink-500 text-white"
-            : "bg-gray-200 text-gray-700"
-            }`}
+          className={`p-2 rounded ${
+            viewMode === "list"
+              ? "bg-pink-500 text-white"
+              : "bg-gray-200 text-gray-700"
+          }`}
         >
           <ListBulletIcon className="w-5 h-5" />
         </button>
@@ -148,15 +149,14 @@ export default function Catalog() {
               key={item.id}
               className="relative bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition flex flex-col min-h-[22rem]"
             >
-              {/* Ribbon for featured products */}
-              <div className="absolute top-0 right-0 overflow-hidden w-20 h-20 pointer-events-none">
-                <div
-                  className={`absolute top-2 right-[-40px] w-[140px] rotate-45 text-white text-xs font-bold py-1 text-center shadow-md 
-                  ${item.available ? "bg-pink-500" : "bg-gray-500"}`}
-                >
-                  {item.available ? "Featured" : "Booked"}
+              {/* Ribbon only when Featured */}
+              {item.available && (
+                <div className="absolute top-0 right-0 overflow-hidden w-20 h-20 pointer-events-none">
+                  <div className="absolute top-2 right-[-40px] w-[140px] rotate-45 bg-pink-500 text-white text-xs font-bold py-1 text-center shadow-md">
+                    Featured
+                  </div>
                 </div>
-              </div>
+              )}
               <div
                 className="cursor-pointer"
                 onClick={() => handleGoToProduct(item)}
@@ -175,19 +175,17 @@ export default function Catalog() {
                 <h2 className="text-lg font-semibold dark:text-black">
                   {item.name}
                 </h2>
-                <p className="text-pink-600 font-semibold">
-                  ₹{item.daily_rate}
-                </p>
+                <p className="text-pink-600 font-semibold">₹{item.daily_rate}</p>
                 <div className="mt-auto">
                   <button
                     onClick={() => handleAddToCart(item)}
                     className="px-4 py-1 rounded text-white w-max relative overflow-hidden 
-                               bg-gradient-to-r from-pink-500 to-fuchsia-500 
-                               hover:from-pink-600 hover:to-fuchsia-600 transition-all duration-300"
+                      bg-gradient-to-r from-pink-500 to-fuchsia-500 
+                      hover:from-pink-600 hover:to-fuchsia-600 transition-all duration-300"
                   >
                     <span className="relative z-10">Rent Now</span>
                     <span className="absolute inset-0 bg-white opacity-20 transform -skew-x-12 
-                                    translate-x-[-100%] hover:translate-x-[200%] transition-all duration-700"></span>
+                        translate-x-[-100%] hover:translate-x-[200%] transition-all duration-700"></span>
                   </button>
                 </div>
               </div>
@@ -201,20 +199,14 @@ export default function Catalog() {
               key={item.id}
               className="flex flex-row items-center gap-4 bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition relative"
             >
-              {/* Ribbon */}
-              <div className="absolute top-2 left-2">
-                {item.available ? (
+              {/* Ribbon only when Featured */}
+              {item.available && (
+                <div className="absolute top-2 left-2">
                   <span className="bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded">
                     Featured
                   </span>
-                ) : (
-                  <span className="bg-gray-500 text-white text-xs font-bold px-2 py-1 rounded">
-                    Booked
-                  </span>
-                )}
-              </div>
-
-              {/* Image */}
+                </div>
+              )}
               <div
                 className="cursor-pointer"
                 onClick={() => handleGoToProduct(item)}
@@ -229,8 +221,6 @@ export default function Catalog() {
                   className="w-24 h-24 object-cover rounded-md flex-shrink-0"
                 />
               </div>
-
-              {/* Details */}
               <div className="flex-1 flex flex-col justify-between h-full">
                 <h2 className="text-lg font-semibold dark:text-black">
                   {item.name}
@@ -239,18 +229,17 @@ export default function Catalog() {
                 <button
                   onClick={() => handleAddToCart(item)}
                   className="mt-2 px-4 py-1 rounded text-white w-max relative overflow-hidden 
-                     bg-gradient-to-r from-pink-500 to-fuchsia-500 
-                     hover:from-pink-600 hover:to-fuchsia-600 transition-all duration-300"
+                    bg-gradient-to-r from-pink-500 to-fuchsia-500 
+                    hover:from-pink-600 hover:to-fuchsia-600 transition-all duration-300"
                 >
                   <span className="relative z-10">Rent Now</span>
                   <span className="absolute inset-0 bg-white opacity-20 transform -skew-x-12 
-                          translate-x-[-100%] hover:translate-x-[200%] transition-all duration-700"></span>
+                      translate-x-[-100%] hover:translate-x-[200%] transition-all duration-700"></span>
                 </button>
               </div>
             </div>
           ))}
         </div>
-
       )}
 
       {visibleProducts.length === 0 && (
