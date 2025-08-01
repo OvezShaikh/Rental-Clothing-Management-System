@@ -11,7 +11,7 @@ const productData = {
       name: "Men's Sherwani",
       category: "Men / Wedding",
       rent: 799,
-      image: images.whiteshervani,
+      image: images.shervaniwhite,
     },
     {
       name: "Evening Gown",
@@ -31,7 +31,7 @@ const productData = {
       name: "Men's Sherwani",
       category: "Men / Wedding",
       rent: 799,
-      image: images.whiteshervani,
+      image: images.shervaniwhite,
     },
     {
       name: "Formal Blazer",
