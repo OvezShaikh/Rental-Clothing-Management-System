@@ -21,10 +21,7 @@ export default function VerifyOtp() {
       email,
       otp,
     });
-
-    // Check if access token exists
     if (res.status === 200 && res.data.access) {
-      // Save both access and refresh tokens
       localStorage.setItem("accessToken", res.data.access);
       localStorage.setItem("refreshToken", res.data.refresh);
 
