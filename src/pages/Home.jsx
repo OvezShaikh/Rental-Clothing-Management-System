@@ -8,6 +8,7 @@ import TodaysForYouSection from "../components/TodaysForYouSection";
 import GenderCategorySection from "../components/GenderCategorySection";
 import ServiceHighlights from "../components/ServiceHighlights";
 import RentalProcess from "../components/RentalProcess";
+import Gallery from "../components/Gallery";
 // import ProductCard from "../components/ProductCard"; // Can be used for later sections
 // import ProductQuickView from "../components/ProductQuickView";
 // import BentoGrid from "../components/BentoGrid";
@@ -49,6 +50,8 @@ const Home = () => {
 
       {/* Flash Sale Section */}
       <FlashSaleSection />
+      {/* Gallery Section */}
+      <Gallery />
       {/* Rental Process Section */}
       <RentalProcess />
 

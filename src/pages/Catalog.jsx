@@ -1,46 +1,92 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useMemo } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import DashboardLayout from "../components/DashboardLayout";
 import { Squares2X2Icon, ListBulletIcon } from "@heroicons/react/24/solid";
 import { FcFolder, FcOpenedFolder } from "react-icons/fc";
 import useCategories from "../hooks/useCategories";
 import useItems from "../hooks/useItems";
+import useSubCategories from "../hooks/useSubcategories";
 
 const ITEMS_TO_SHOW = 4;
+const FALLBACK_IMAGE = "https://cdn-icons-png.flaticon.com/512/892/892458.png";
 
 export default function Catalog() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [visibleCount, setVisibleCount] = useState(ITEMS_TO_SHOW);
   const [viewMode, setViewMode] = useState("grid");
-  const navigate = useNavigate();
 
   const { categories, loading: loadingCategories } = useCategories();
   const { items, loading: loadingItems } = useItems();
+  const { subCategories, loading: loadingSubCategories } = useSubCategories();
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const genderParam = queryParams.get("gender");
+
+  // ✅ Set default view for mobile
   useEffect(() => {
-    if (window.innerWidth < 640) {
-      setViewMode("list");
-    }
+    if (window.innerWidth < 640) setViewMode("list");
   }, []);
 
-  const filteredProducts =
-    selectedCategory === "All"
-      ? items
-      : items.filter((item) => {
-          const cat = categories.find((c) => c.id === item.category);
-          return cat?.name === selectedCategory;
-        });
+  // ✅ Preselect category from query string
+  useEffect(() => {
+    if (categories.length && genderParam) {
+      const matched = categories.find(
+        (cat) => cat.name.toLowerCase() === genderParam.toLowerCase()
+      );
+      if (matched) {
+        setSelectedCategory(matched.id); // always use id for filtering
+        setSelectedSubCategory("");
+        setVisibleCount(ITEMS_TO_SHOW);
+      }
+    }
+  }, [categories, genderParam]);
+
+  // ✅ Get the selected category object (if not "all")
+  const selectedCategoryObj = useMemo(() => {
+    return selectedCategory === "all"
+      ? null
+      : categories.find((cat) => cat.id === selectedCategory);
+  }, [categories, selectedCategory]);
+
+  // ✅ Filtering logic
+  const filteredProducts = useMemo(() => {
+    let result = items;
+
+    if (selectedCategoryObj) {
+      result = result.filter((item) => item.category?.id === selectedCategoryObj.id);
+    }
+
+    if (selectedSubCategory) {
+      result = result.filter((item) => {
+        const subId = item.subcategory?.id ?? item.subcategory_id;
+        const subSlug = item.subcategory?.slug;
+        return (
+          String(subId) === String(selectedSubCategory) ||
+          String(subSlug) === String(selectedSubCategory)
+        );
+      });
+    }
+
+    return result;
+  }, [items, selectedCategoryObj, selectedSubCategory]);
 
   const visibleProducts = filteredProducts.slice(0, visibleCount);
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
+  // ✅ Handlers
+  const handleCategoryChange = (categoryKey) => {
+    setSelectedCategory(categoryKey);
+    setSelectedSubCategory("");
     setVisibleCount(ITEMS_TO_SHOW);
   };
 
-  const handleLoadMore = () => {
-    setVisibleCount(filteredProducts.length);
+  const handleSubCategoryChange = (value) => {
+    setSelectedSubCategory(value);
   };
+
+  const handleLoadMore = () => setVisibleCount(filteredProducts.length);
 
   const handleGoToProduct = (item) => {
     navigate(`/product/${item.id}`, { state: { product: item } });
@@ -54,10 +100,7 @@ export default function Catalog() {
           name: item.name,
           price: item.daily_rate,
           size: "M",
-          image:
-            item.images?.length > 0
-              ? item.images[0].image
-              : "https://via.placeholder.com/400",
+          image: item.images?.[0]?.image || FALLBACK_IMAGE,
         },
       },
     });
@@ -75,117 +118,110 @@ export default function Catalog() {
     <DashboardLayout>
       <h1 className="text-2xl font-bold text-pink-600 mb-6">Catalog</h1>
 
-      {/* Category Tabs */}
-      <div className="flex sm:flex-wrap sm:overflow-x-auto sm:no-scrollbar flex-wrap md:flex-wrap gap-4 mb-6 pb-2">
+      {/* ✅ Category Tabs */}
+      <div className="flex flex-wrap gap-4 mb-6 pb-2 sm:overflow-x-auto sm:no-scrollbar">
         <button
-          onClick={() => handleCategoryChange("All")}
-          className={`flex flex-col items-center px-2 py-3 rounded-md whitespace-normal w-24 h-22 
-            ${
-              selectedCategory === "All"
-                ? "bg-pink-100 text-pink-600"
-                : "bg-gray-100 text-gray-700"
+          onClick={() => handleCategoryChange("all")}
+          className={`flex flex-col items-center px-2 py-3 rounded-md w-24 h-22 ${selectedCategory === "all" ? "bg-pink-100 text-pink-600" : "bg-gray-100 text-gray-700"
             }`}
         >
-          {selectedCategory === "All" ? (
+          {selectedCategory === "all" ? (
             <FcOpenedFolder className="w-8 h-8 mb-1" />
           ) : (
             <FcFolder className="w-8 h-8 mb-1" />
           )}
-          <span className="text-center text-xs leading-tight truncate">{`All`}</span>
+          <span className="text-center text-xs truncate">All</span>
         </button>
 
-        {categories.map((cat, idx) => (
-          <button
-            key={idx}
-            onClick={() => handleCategoryChange(cat.name)}
-            className={`flex flex-col items-center px-3 py-2 justify-center sm:py-1 rounded-md whitespace-normal sm:w-22 sm:h-22 
-              ${
-                selectedCategory === cat.name
-                  ? "bg-pink-100 text-pink-600"
-                  : "bg-gray-100 text-gray-700"
-              }`}
-          >
-            <img
-              src={cat.image || "https://via.placeholder.com/40"}
-              alt={cat.name}
-              className="w-8 h-8 mb-1 object-cover rounded-full"
-            />
-            <span className="text-center text-xs leading-tight break-words whitespace-normal w-20 px-1">
-              {cat.name}
-            </span>
-          </button>
-        ))}
+        {categories
+          .filter((cat) => ["Mens", "Womens", "Couple"].includes(cat.name))
+          .map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => handleCategoryChange(cat.id)}
+              className={`flex flex-col items-center px-3 py-2 rounded-md ${selectedCategory === cat.id ? "bg-pink-100 text-pink-600" : "bg-gray-100 text-gray-700"
+                }`}
+            >
+              <img
+                src={cat.image || FALLBACK_IMAGE}
+                alt={cat.name}
+                className="w-8 h-8 mb-1 object-cover rounded-full"
+              />
+              <span className="text-center text-xs break-words w-20 px-1">{cat.name}</span>
+            </button>
+          ))}
       </div>
 
-      {/* View Toggle */}
+      {/* ✅ Subcategory Dropdown */}
+      {selectedCategory !== "all" && !loadingSubCategories && subCategories.length > 0 && (
+        <div className="mb-6 text-black">
+          <select
+            onChange={(e) => handleSubCategoryChange(e.target.value)}
+            value={selectedSubCategory}
+            className="border px-3 py-2 rounded-md w-full sm:w-64"
+          >
+            <option value="">All</option>
+            {subCategories
+              .filter((sub) => {
+                // Try various ways, fallback if necessary
+                const catId = selectedCategoryObj?.id;
+                return (
+                  String(sub.category_id) === String(catId) ||
+                  String(sub.category?.id) === String(catId) ||
+                  sub.category_name === selectedCategoryObj?.name
+                );
+              })
+              .map((sub) => (
+                <option key={sub.id} value={sub.id}>{sub.name}</option>
+              ))}
+          </select>
+        </div>
+      )}
+
+      {/* ✅ View Mode Toggle */}
       <div className="flex justify-end mb-4 gap-2">
         <button
           onClick={() => setViewMode("grid")}
-          className={`p-2 rounded ${
-            viewMode === "grid"
-              ? "bg-pink-500 text-white"
-              : "bg-gray-200 text-gray-700"
-          }`}
+          className={`p-2 rounded ${viewMode === "grid" ? "bg-pink-500 text-white" : "bg-gray-200 text-gray-700"}`}
         >
           <Squares2X2Icon className="w-5 h-5" />
         </button>
         <button
           onClick={() => setViewMode("list")}
-          className={`p-2 rounded ${
-            viewMode === "list"
-              ? "bg-pink-500 text-white"
-              : "bg-gray-200 text-gray-700"
-          }`}
+          className={`p-2 rounded ${viewMode === "list" ? "bg-pink-500 text-white" : "bg-gray-200 text-gray-700"}`}
         >
           <ListBulletIcon className="w-5 h-5" />
         </button>
       </div>
 
-      {/* Product View */}
+      {/* ✅ Products */}
       {viewMode === "grid" ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
           {visibleProducts.map((item) => (
-            <div
-              key={item.id}
-              className="relative bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition flex flex-col min-h-[22rem]"
-            >
-              {/* Ribbon only when Featured */}
-              {item.available && (
+            <div key={item.id} className="relative bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition flex flex-col min-h-[22rem]">
+              {item.featured && (
                 <div className="absolute top-0 right-0 overflow-hidden w-20 h-20 pointer-events-none">
                   <div className="absolute top-2 right-[-40px] w-[140px] rotate-45 bg-pink-500 text-white text-xs font-bold py-1 text-center shadow-md">
                     Featured
                   </div>
                 </div>
               )}
-              <div
-                className="cursor-pointer"
-                onClick={() => handleGoToProduct(item)}
-              >
+              <div className="cursor-pointer" onClick={() => handleGoToProduct(item)}>
                 <img
-                  src={
-                    item.images?.length > 0
-                      ? item.images[0].image
-                      : "https://via.placeholder.com/400"
-                  }
+                  src={item.images?.[0]?.image || FALLBACK_IMAGE}
                   alt={item.name}
                   className="w-full h-[400px] object-cover rounded-md mb-3"
                 />
               </div>
               <div className="flex-1 flex flex-col">
-                <h2 className="text-lg font-semibold dark:text-black">
-                  {item.name}
-                </h2>
+                <h2 className="text-lg font-semibold dark:text-black">{item.name}</h2>
                 <p className="text-pink-600 font-semibold">₹{item.daily_rate}</p>
                 <div className="mt-auto">
                   <button
                     onClick={() => handleAddToCart(item)}
-                    className="px-4 py-1 rounded text-white w-max relative overflow-hidden 
-                      bg-gradient-to-r from-pink-500 to-fuchsia-500 
-                      hover:from-pink-600 hover:to-fuchsia-600 transition-all duration-300"
+                    className="px-4 py-1 rounded text-white w-max bg-gradient-to-r from-pink-500 to-fuchsia-500 hover:from-pink-600 hover:to-fuchsia-600 transition-all duration-300"
                   >
-                    <span className="relative z-10">Rent Now</span>
-                    <span className="absolute inset-0 bg-white opacity-20 transform -skew-x-12 
-                        translate-x-[-100%] hover:translate-x-[200%] transition-all duration-700"></span>
+                    Rent Now
                   </button>
                 </div>
               </div>
@@ -195,46 +231,29 @@ export default function Catalog() {
       ) : (
         <div className="space-y-4">
           {visibleProducts.map((item) => (
-            <div
-              key={item.id}
-              className="flex flex-row items-center gap-4 bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition relative"
-            >
-              {/* Ribbon only when Featured */}
-              {item.available && (
+            <div key={item.id} className="flex items-center gap-4 bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition relative">
+              {item.featured && (
                 <div className="absolute top-2 left-2">
                   <span className="bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded">
                     Featured
                   </span>
                 </div>
               )}
-              <div
-                className="cursor-pointer"
-                onClick={() => handleGoToProduct(item)}
-              >
+              <div className="cursor-pointer" onClick={() => handleGoToProduct(item)}>
                 <img
-                  src={
-                    item.images?.length > 0
-                      ? item.images[0].image
-                      : "https://via.placeholder.com/150"
-                  }
+                  src={item.images?.[0]?.image || FALLBACK_IMAGE}
                   alt={item.name}
                   className="w-24 h-24 object-cover rounded-md flex-shrink-0"
                 />
               </div>
-              <div className="flex-1 flex flex-col justify-between h-full">
-                <h2 className="text-lg font-semibold dark:text-black">
-                  {item.name}
-                </h2>
+              <div className="flex-1 flex flex-col justify-between">
+                <h2 className="text-lg font-semibold dark:text-black">{item.name}</h2>
                 <p className="text-pink-600 font-semibold">₹{item.daily_rate}</p>
                 <button
                   onClick={() => handleAddToCart(item)}
-                  className="mt-2 px-4 py-1 rounded text-white w-max relative overflow-hidden 
-                    bg-gradient-to-r from-pink-500 to-fuchsia-500 
-                    hover:from-pink-600 hover:to-fuchsia-600 transition-all duration-300"
+                  className="mt-2 px-4 py-1 rounded text-white w-max bg-gradient-to-r from-pink-500 to-fuchsia-500 hover:from-pink-600 hover:to-fuchsia-600 transition-all duration-300"
                 >
-                  <span className="relative z-10">Rent Now</span>
-                  <span className="absolute inset-0 bg-white opacity-20 transform -skew-x-12 
-                      translate-x-[-100%] hover:translate-x-[200%] transition-all duration-700"></span>
+                  Rent Now
                 </button>
               </div>
             </div>
@@ -243,9 +262,7 @@ export default function Catalog() {
       )}
 
       {visibleProducts.length === 0 && (
-        <p className="text-gray-500 col-span-full text-center mt-4">
-          No products found.
-        </p>
+        <p className="text-gray-500 text-center mt-4">No products found.</p>
       )}
 
       {visibleCount < filteredProducts.length && (

@@ -11,11 +11,27 @@ export default function ProductPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [selectedSize, setSelectedSize] = useState("M");
   const [mainImage, setMainImage] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [availableSizes, setAvailableSizes] = useState([]);
   const [activeTab, setActiveTab] = useState("description");
   const [showZoom, setShowZoom] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    axios
+      .get(`https://aliasgar.pythonanywhere.com/api/rentals/items/${id}/`)
+      .then((res) => {
+        setProduct(res.data);
+        setAvailableSizes(res.data.sizes || []);  // ✅ Get sizes from API
+        setSelectedSize(res.data.sizes?.[0] || null);  // ✅ Auto select first available
+        if (res.data.images.length > 0) {
+          setMainImage(res.data.images[0].image);
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to fetch product", err);
+      });
+  }, [id]);
 
   useEffect(() => {
     axios
@@ -137,23 +153,26 @@ export default function ProductPage() {
             </p>
 
             {/* Size Selector */}
-            <div>
-              <p className="font-medium text-xs sm:text-sm text-gray-700 mb-2">Select Size:</p>
-              <div className="flex gap-2 flex-wrap">
-                {sizes.map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`px-3 py-1 sm:px-4 sm:py-2 border rounded-lg text-sm ${selectedSize === size
-                      ? "bg-pink-600 text-white"
-                      : "bg-white text-gray-700"
-                      }`}
-                  >
-                    {size}
-                  </button>
-                ))}
+            {availableSizes.length > 0 && (
+              <div>
+                <p className="font-medium text-xs sm:text-sm text-gray-700 mb-2">Select Size:</p>
+                <div className="flex gap-2 flex-wrap">
+                  {availableSizes.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      className={`px-3 py-1 sm:px-4 sm:py-2 border rounded-lg text-sm ${selectedSize === size
+                          ? "bg-pink-600 text-white"
+                          : "bg-white text-gray-700"
+                        }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
+
 
             {/* Action Buttons */}
             <div className="flex flex-wrap gap-3 sm:gap-4 xs:grid-col-2 mt-6 justify-center sm:justify-start">

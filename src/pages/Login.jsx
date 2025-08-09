@@ -32,7 +32,7 @@ export default function Login() {
     console.log(window.location.origin);
     const userData = jwtDecode(response.credential);
     localStorage.setItem("user", JSON.stringify(userData));
-    navigate("/dashboard");
+    navigate("/catalog");
   };
 
   const handleSendOtp = async (e) => {
@@ -58,6 +58,7 @@ export default function Login() {
     setLoading(false);
   }
 };
+
 
   return (
     <>

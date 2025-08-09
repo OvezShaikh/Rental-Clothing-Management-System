@@ -23,6 +23,21 @@ import rentalprocessimg from "../assets/rentalprocessimg.jpg";
 import paperTexture from "../assets/paperTexture.jpg";
 import greendress from "../assets/greendress.jpg";
 import shervaniwhite from "../assets/shervaniwhite.jpg";
+import ai1 from "../assets/ai1.jpeg";
+import ai2l from "../assets/ai2l.jpeg"; 
+import ai2 from "../assets/ai2.jpeg";
+import ai3 from "../assets/ai3.jpeg";
+import ai4 from "../assets/ai4.png";
+import ai4l from "../assets/ai4l.jpg";
+import ai5 from "../assets/ai5.png";
+import ai6 from "../assets/ai6.jpeg";
+import ai7 from "../assets/ai7.jpeg";
+import ai8 from "../assets/ai8.jpg";
+import heroimg1 from "../assets/heroimg1.jpg";
+import heroimg2 from "../assets/heroimg2.jpg";
+import heroimg3 from "../assets/heroimg3.jpg";
+import heroimg4 from "../assets/heroimg4.png";
+import heroimg5 from "../assets/heroimg5.png";
 
 export const images = {
   brownjacket, 
@@ -50,4 +65,19 @@ export const images = {
   paperTexture,
   greendress,
   shervaniwhite,
+  ai1,
+  ai2,
+  ai2l,
+  ai3,
+  ai4,
+  ai4l,
+  ai5,
+  ai6,
+  ai7,
+  ai8,
+  heroimg1,
+  heroimg2,
+  heroimg3,
+  heroimg4,
+  heroimg5,
 }

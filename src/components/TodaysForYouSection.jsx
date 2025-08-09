@@ -1,111 +1,128 @@
-// components/TodaysForYouSection.jsx
 import React, { useState } from "react";
-import { images } from "../constants/images";
-// import ProductCard from "./ProductCard"; // If using your existing card
+import { useNavigate } from "react-router-dom";
+import useItems from "../hooks/useItems";
+import useCategories from "../hooks/useCategories";
 
-const tabs = ["All", "Men", "Women", "Occasion"];
-
-const productData = {
-  All: [
-    {
-      name: "Men's Sherwani",
-      category: "Men / Wedding",
-      rent: 799,
-      image: images.shervaniwhite,
-    },
-    {
-      name: "Evening Gown",
-      category: "Women / Party",
-      rent: 899,
-      image: images.greendress,
-    },
-    {
-      name: "Formal Blazer",
-      category: "Men / Formal",
-      rent: 599,
-      image: images.blazer,
-    },
-  ],
-  Men: [
-    {
-      name: "Men's Sherwani",
-      category: "Men / Wedding",
-      rent: 799,
-      image: images.shervaniwhite,
-    },
-    {
-      name: "Formal Blazer",
-      category: "Men / Formal",
-      rent: 599,
-      image: images.blazer,
-    },
-  ],
-  Women: [
-    {
-      name: "Evening Gown",
-      category: "Women / Party",
-      rent: 899,
-      image: images.greendress,
-    },
-  ],
-  Occasion: [
-    {
-      name: "Indo-Western Set",
-      category: "Men / Reception",
-      rent: 999,
-      image: images.indowestern,
-    },
-    {
-      name: "Saree Gown",
-      category: "Women / Wedding",
-      rent: 799,
-      image: images.partywear,
-    },
-  ],
-};
+const tabs = ["all", "mens", "womens", "occasion"]; // use slugs for matching
 
 const TodaysForYouSection = () => {
-  const [activeTab, setActiveTab] = useState("All");
+  const [activeTab, setActiveTab] = useState("all");
+  const { items, loading } = useItems();
+  const { categories } = useCategories();
+  const navigate = useNavigate();
+
+  const getCategoryName = (categoryStr, subcategorySlug = null) => {
+  if (!categoryStr) return "Unknown";
+
+  // If categoryStr is an object, extract name/slug
+  let categoryName = "";
+  let categorySlug = "";
+  if (typeof categoryStr === "object") {
+    categoryName = categoryStr.name || "";
+    categorySlug = categoryStr.slug || "";
+  } else if (typeof categoryStr === "string") {
+    categoryName = categoryStr;
+    categorySlug = categoryStr;
+  } else {
+    return "Unknown";
+  }
+
+  const parent = categories.find(
+    (cat) =>
+      cat.name?.toLowerCase() === categoryName.toLowerCase() ||
+      cat.slug?.toLowerCase() === categorySlug.toLowerCase()
+  );
+
+  if (!parent) return "Unknown";
+
+  if (subcategorySlug) {
+    const sub = parent.subcategories?.find((sc) => sc.slug === subcategorySlug);
+    if (sub) return sub.name;
+  }
+
+  return parent.name;
+};
+
+
+  const getCategorySlug = (categoryStr) => {
+  if (!categoryStr) return "unknown";
+
+  // If categoryStr is an object, try reading its name or slug
+  if (typeof categoryStr === "object") {
+    categoryStr = categoryStr.name || categoryStr.slug || "";
+  }
+
+  if (typeof categoryStr !== "string") return "unknown";
+
+  const found = categories.find(
+    (cat) =>
+      cat.name?.toLowerCase() === categoryStr.toLowerCase() ||
+      cat.slug?.toLowerCase() === categoryStr.toLowerCase()
+  );
+
+  return found ? found.slug.toLowerCase() : "unknown";
+};
+
+  const filteredItems = items.filter((item) => {
+    const categorySlug = getCategorySlug(item.category);
+    if (activeTab === "all") return true;
+    return categorySlug === activeTab.toLowerCase();
+  });
+
+  const handleClick = (item) => {
+    navigate(`/product/${item.id}`);
+  };
 
   return (
-    <div className="bg-white py-10 px-4 sm:px-12 dark:bg-gray-800 dark:text-white">
+    <div className="bg-white py-10 px-4 sm:px-12 dark:bg-gray-800 dark:text-white justify-end items-end">
       <div className="mb-6 flex justify-between items-center">
-        <h2 className="text-2xl font-semibold text-gray-800 dark:text-white sm:text-xl">
-          Today's For You
-        </h2>
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-3 lg:gap-3">
+        <div className="flex flex-wrap gap-2 sm:gap-4">
           {tabs.map((tab) => (
             <button
               key={tab}
-              className={`text-sm px-4 py-2 rounded-full ${
-                activeTab === tab
-                  ? "bg-indigo-600 text-white"
-                  : "bg-gray-100 text-gray-700"
-              }`}
+              className={`text-sm px-3 py-3 sm:px-3 sm:py-3 lg:px-4 lg:py-4 rounded-lg ${activeTab === tab
+                ? "bg-indigo-600 text-white"
+                : "bg-gray-100 text-gray-700"
+                }`}
               onClick={() => setActiveTab(tab)}
             >
-              {tab}
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
           ))}
         </div>
       </div>
 
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {productData[activeTab].map((item, index) => (
-          <div key={index} className="bg-gray-50 p-4 shadow rounded-md">
-            <img
-              src={item.image}
-              alt={item.name}
-              className="w-full h-[300px] object-cover rounded-md mb-3"
-            />
-            <h3 className="text-md font-semibold text-gray-800">{item.name}</h3>
-            <p className="text-sm text-gray-500">{item.category}</p>
-            <p className="mt-2 text-indigo-600 font-bold text-lg">
-              ₹{item.rent}/day
-            </p>
-          </div>
-        ))}
-      </div>
+      {loading ? (
+        <p>Loading items...</p>
+      ) : (
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {filteredItems.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => handleClick(item)}
+              className="bg-gray-50 p-4 shadow rounded-md cursor-pointer hover:shadow-md transition"
+            >
+              <img
+                src={
+                  item.images?.[0]?.image ||
+                  "https://via.placeholder.com/300x400?text=No+Image"
+                }
+                alt={item.name}
+                className="w-full h-[300px] object-cover rounded-md mb-3"
+              />
+              <h3 className="text-md font-semibold text-gray-800">
+                {item.name}
+              </h3>
+              <p className="text-sm text-gray-500">
+                {getCategoryName(item.category, item.subcategory_slug)}
+              </p>
+              <p className="mt-2 text-indigo-600 font-bold text-lg">
+                ₹{parseInt(item.daily_rate)}/day
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

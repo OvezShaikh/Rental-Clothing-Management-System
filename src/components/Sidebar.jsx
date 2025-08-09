@@ -6,7 +6,7 @@ export default function Sidebar({ isOpen, onClose }) {
   const { pathname } = useLocation();
 
   const navItems = [
-    { name: "Dashboard", path: "/dashboard" },
+    // { name: "Dashboard", path: "/dashboard" },
     { name: "Catalog", path: "/catalog" },
     { name: "My Rentals", path: "/myrentals" },
     { name: "Wishlist", path: "/wishlist" },

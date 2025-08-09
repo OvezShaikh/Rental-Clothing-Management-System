@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { images } from "../constants/images";
 import ThemeToggle from "../layout/ThemeToggle";
+import { FaUserCircle } from "react-icons/fa";
 
 export default function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   return (
     <nav className="bg-white border-b border-gray-200 dark:bg-gray-800 sticky top-0 z-50">
@@ -24,19 +26,32 @@ export default function Navbar() {
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
             >
-              <img
-                className="w-8 h-8 rounded-full"
-                src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
-                alt="user"
-              />
+              {user ? (
+                user.picture ? (
+                  <img
+                    src={user.picture}
+                    alt={user.name || "User"}
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
+                ) : (
+                  <FaUserCircle className="w-8 h-8 text-gray-300" />
+                )
+              ) : (
+                <a
+                  href="/login"
+                  className="text-white px-4 py-2 rounded bg-blue-600 hover:bg-blue-700"
+                >
+                  Login
+                </a>
+              )}
             </button>
 
             {/* Dropdown */}
             {dropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg dark:bg-gray-700 z-50">
                 <div className="px-4 py-3">
-                  <span className="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                  <span className="block text-sm text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                  <span className="block text-sm text-gray-900 dark:text-white">{user.name}</span>
+                  <span className="block text-sm text-gray-500 truncate dark:text-gray-400">{user.email}</span>
                 </div>
                 <ul className="py-2">
                   <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center justify-between">
@@ -45,7 +60,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <Link
-                      to="/dashboard"
+                      to="/myrentals"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
                     >
                       Dashboard
@@ -59,7 +74,7 @@ export default function Navbar() {
                       Settings
                     </Link>
                   </li>
-                   <li>
+                  <li>
                     <Link
                       to="/cart"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"

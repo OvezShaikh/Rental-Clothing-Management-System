@@ -12,15 +12,16 @@ export default function RentalProcess() {
     <section
       className="relative px-4 py-8 md:py-0 h-full bg-cover bg-center text-gray-800 dark:text-white"
       style={{
-        backgroundImage: `url(${images.paperTexture})`,
+        // backgroundImage: `url(${images.paperTexture})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
+        backgroundColor: "#ffd769",
       }}
     >
       <div className="max-w-7xl mx-auto relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-center">
-        
+
         {/* Right Heading (comes first on mobile) */}
-        <div className="flex justify-center items-center text-center md:text-right order-1 md:order-3">
+        <div className="flex justify-center items-center text-center md:text-right md:item-center md:justify-center md:mb-4 order-1 md:order-3">
           <h2>
             <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#4A2E1E] font-playfair tracking-wide">
               RENTAL
@@ -34,14 +35,22 @@ export default function RentalProcess() {
         {/* Center Image */}
         <div className="flex justify-center order-2">
           <img
-            src={images.rentalprocessimg}
+            src={images.ai8}
             alt="Rental Process"
-            className="w-40 sm:w-56 md:w-64 lg:w-72 object-contain relative z-10"
+            className="
+  w-full
+  sm:w-[400px] sm:h-[120px] sm:py-0
+  md:w-[300px] md:h-[300px] md:mt-4 md:mb-4
+  lg:w-[240px] lg:h-[360px]
+  object-cover 
+  relative 
+  z-10
+"
           />
         </div>
 
         {/* Left Side - Steps (comes last on mobile) */}
-        <div className="flex flex-col items-center md:items-start space-y-4 order-3 md:order-1">
+        <div className="flex flex-col items-center mt-4 mb-4 md:items-start space-y-4 order-3 md:order-1">
           {steps.map((step, index) => (
             <div
               key={index}

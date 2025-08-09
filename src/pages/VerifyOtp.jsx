@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import { FaUserCircle } from "react-icons/fa";
 
 export default function VerifyOtp() {
   const navigate = useNavigate();
@@ -25,8 +26,17 @@ export default function VerifyOtp() {
       localStorage.setItem("accessToken", res.data.access);
       localStorage.setItem("refreshToken", res.data.refresh);
 
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          email: email,
+          name: email.split("@")[0], // basic fallback name
+          picture: null, // fallback avatar
+        })
+      );
+
       setMessage("OTP verified successfully!");
-      navigate("/dashboard");
+      navigate("/");
     } else {
       setMessage("Verification failed: Missing token in response.");
     }
