@@ -2,7 +2,7 @@ import { FaTruck, FaUndo, FaTags, FaCheckCircle, FaStore, FaMoneyBillWave } from
 
 export default function ServiceHighlights() {
   return (
-    <section className="bg-gray-200 dark:bg-gray-800 py-12 px-4 md:px-10 transition-colors duration-300">
+    <section className="bg-gray-200 dark:bg-black py-12 px-4 md:px-10 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         {/* Buttons */}
         {/* <div className="flex flex-wrap justify-center gap-4 mb-6">

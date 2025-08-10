@@ -9,7 +9,7 @@ const GenderCategorySection = () => {
   };
 
   return (
-    <section className="flex flex-col md:flex-row gap-4 px-2 md:px-10 dark:bg-gray-800 dark:text-white">
+    <section className="flex flex-col md:flex-row gap-4 px-2 md:px-10 dark:bg-black dark:text-white">
       {/* For Her */}
       <div
         onClick={() => handleNavigate("womens")}

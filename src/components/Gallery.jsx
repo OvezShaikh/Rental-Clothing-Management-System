@@ -36,7 +36,7 @@ const Gallery = () => {
   ];
 
   return (
-    <section className="py-10 px-5 bg-gray-50 dark:bg-gray-900 dark:text-white">
+    <section className="py-10 px-5 bg-gray-50 dark:bg-black dark:text-white">
       <h2 className="text-3xl font-bold text-center mb-8">
         Our <span className="text-pink-500">Gallery</span>
       </h2>

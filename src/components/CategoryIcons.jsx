@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { images } from "../constants/images"; // Adjust path if needed
 import { LuSparkle } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 
 const CategoryIcons = () => {
   const [subcategories, setSubcategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   // Map category IDs to readable parent names
   const categoryMap = {
@@ -37,7 +39,7 @@ const CategoryIcons = () => {
 
   // Card Component
   const CategoryCard = ({ cat }) => (
-    <div className="group relative overflow-hidden rounded-none shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer">
+    <div className="group relative overflow-hidden rounded-none shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer" onClick={() => navigate(`/catalog?subcategory=${cat.id}`)}>
       {/* Image */}
       <img
         src={cat.image || images.cremejacket}
@@ -71,7 +73,7 @@ const CategoryIcons = () => {
   );
 
   return (
-    <div className="px-6 py-10 bg-white dark:bg-gray-900">
+    <div className="px-6 py-10 bg-white dark:bg-black ">
       {loading ? (
         <p className="text-gray-500">Loading...</p>
       ) : (

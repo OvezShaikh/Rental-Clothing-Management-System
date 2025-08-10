@@ -16,7 +16,7 @@ const FlashSaleSection = () => {
   const flashItems = items.slice(0, 6); // simulate flash sale
 
   return (
-    <div className="bg-white py-10 sm:px-12 dark:bg-gray-800 dark:text-white">
+    <div className="bg-white py-10 sm:px-12 dark:bg-black dark:text-white">
       <div className="flex justify-end items-end mb-6">
         <div className="flex gap-2">
           <button

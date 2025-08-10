@@ -74,7 +74,7 @@ const TodaysForYouSection = () => {
   };
 
   return (
-    <div className="bg-white py-10 px-4 sm:px-12 dark:bg-gray-800 dark:text-white justify-end items-end">
+    <div className="bg-white py-10 px-4 sm:px-12 dark:bg-black dark:text-white justify-end items-end">
       <div className="mb-6 flex justify-between items-center">
         <div className="flex flex-wrap gap-2 sm:gap-4">
           {tabs.map((tab) => (
