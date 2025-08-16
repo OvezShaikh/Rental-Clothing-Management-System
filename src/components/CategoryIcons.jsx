@@ -99,7 +99,7 @@ const CategoryIcons = () => {
   );
 
   return (
-    <div className="px-6 py-10 bg-white dark:bg-black font-playfair">
+    <div className="px-6 py-10 bg-white dark:bg-black font-playfair text-left">
       {loading ? (
         <p className="text-gray-500">Loading...</p>
       ) : (
