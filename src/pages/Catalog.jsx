@@ -22,27 +22,62 @@ export default function Catalog() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const genderParam = queryParams.get("gender");
+const queryParams = new URLSearchParams(location.search);
+const categoryParam = queryParams.get("category");      // name
+const categoryIdParam = queryParams.get("categoryId");  // id from query
+const categoryIdFromState = location.state?.categoryId; // id from state
+const subcategoryIdParam = queryParams.get("subcategoryId");     // subcategory id (query)
+const subcategorySlugParam = queryParams.get("subcategory");     // subcategory slug (query)
+const subcategoryIdFromState = location.state?.subcategoryId;    // subcategory id (state)
+const subcategorySlugFromState = location.state?.subcategoryName; // subcategory slug/name (state)
 
-  // ✅ Set default view for mobile
-  useEffect(() => {
-    if (window.innerWidth < 640) setViewMode("list");
-  }, []);
+useEffect(() => {
+  if (categories.length) {
+    let selectedId = null;
 
-  // ✅ Preselect category from query string
-  useEffect(() => {
-    if (categories.length && genderParam) {
+    // Priority: state → queryId → queryName
+    if (categoryIdFromState) {
+      selectedId = categoryIdFromState;
+    } else if (categoryIdParam) {
+      selectedId = categoryIdParam;
+    } else if (categoryParam) {
       const matched = categories.find(
-        (cat) => cat.name.toLowerCase() === genderParam.toLowerCase()
+        (cat) => cat.name.toLowerCase() === categoryParam.toLowerCase()
       );
-      if (matched) {
-        setSelectedCategory(matched.id); // always use id for filtering
-        setSelectedSubCategory("");
-        setVisibleCount(ITEMS_TO_SHOW);
-      }
+      if (matched) selectedId = matched.id;
     }
-  }, [categories, genderParam]);
+
+    if (selectedId) {
+      setSelectedCategory(selectedId);
+
+      // ✅ Subcategory handling
+      if (subcategoryIdFromState) {
+        setSelectedSubCategory(subcategoryIdFromState);
+      } else if (subcategoryIdParam) {
+        setSelectedSubCategory(subcategoryIdParam);
+      } else if (subcategorySlugFromState) {
+        setSelectedSubCategory(subcategorySlugFromState);
+      } else if (subcategorySlugParam) {
+        setSelectedSubCategory(subcategorySlugParam);
+      } else {
+        setSelectedSubCategory("");
+      }
+
+      setVisibleCount(ITEMS_TO_SHOW);
+    }
+  }
+}, [
+  categories,
+  categoryParam,
+  categoryIdParam,
+  categoryIdFromState,
+  subcategoryIdFromState,
+  subcategoryIdParam,
+  subcategorySlugFromState,
+  subcategorySlugParam,
+]);
+
+
 
   // ✅ Get the selected category object (if not "all")
   const selectedCategoryObj = useMemo(() => {
@@ -119,10 +154,10 @@ export default function Catalog() {
       <h1 className="text-2xl font-bold text-pink-600 mb-6">Catalog</h1>
 
       {/* ✅ Category Tabs */}
-      <div className="flex flex-wrap gap-4 mb-6 pb-2 sm:overflow-x-auto sm:no-scrollbar">
+      <div className="flex flex-nowrap gap-4 mb-6 pb-2 sm:overflow-x-auto sm:no-scrollbar">
         <button
           onClick={() => handleCategoryChange("all")}
-          className={`flex flex-col items-center px-2 py-3 rounded-md w-24 h-22 ${selectedCategory === "all" ? "bg-pink-100 text-pink-600" : "bg-gray-100 text-gray-700"
+          className={`flex flex-col items-center px-1 py-1 rounded-md w-14 h-22 sm:w-24 sm:h-22  ${selectedCategory === "all" ? "bg-pink-100 text-pink-600" : "bg-gray-100 text-gray-700"
             }`}
         >
           {selectedCategory === "all" ? (
@@ -139,7 +174,7 @@ export default function Catalog() {
             <button
               key={cat.id}
               onClick={() => handleCategoryChange(cat.id)}
-              className={`flex flex-col items-center px-3 py-2 rounded-md ${selectedCategory === cat.id ? "bg-pink-100 text-pink-600" : "bg-gray-100 text-gray-700"
+              className={`flex flex-col items-center px-3 py-2 rounded-md w-14 h-22 sm:w-24 sm:h-22 ${selectedCategory === cat.id ? "bg-pink-100 text-pink-600" : "bg-gray-100 text-gray-700"
                 }`}
             >
               <img
@@ -154,11 +189,17 @@ export default function Catalog() {
 
       {/* ✅ Subcategory Dropdown */}
       {selectedCategory !== "all" && !loadingSubCategories && subCategories.length > 0 && (
-        <div className="mb-6 text-black">
+        <div className="flex mb-6 text-black">
           <select
             onChange={(e) => handleSubCategoryChange(e.target.value)}
             value={selectedSubCategory}
-            className="border px-3 py-2 rounded-md w-full sm:w-64"
+            className="w-full sm:w-64 px-3 py-2 rounded-md border-none text-white 
+             bg-gradient-to-r from-yellow-500 to-yellow-700
+             focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-md"
+            style={{
+              color: '#5B4500', // Dark gold text
+              backgroundColor: '#F9E4B7', // Light gold background
+            }}
           >
             <option value="">All</option>
             {subCategories
@@ -172,7 +213,10 @@ export default function Catalog() {
                 );
               })
               .map((sub) => (
-                <option key={sub.id} value={sub.id}>{sub.name}</option>
+                <option key={sub.id} value={sub.id} style={{
+                  backgroundColor: '#F9E4B7',
+                  color: '#5B4500',
+                }}>{sub.name}</option>
               ))}
           </select>
         </div>

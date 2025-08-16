@@ -17,6 +17,7 @@ import Logout from "./pages/Logout"; // Import Logout component
 import ContactPage from "./pages/ContactPage"; // Import ContactPage component
 import CartPage from "./pages/CartPage";
 import PaymentPage from "./pages/PaymentPage";
+import Settings from "./pages/Settings"; // Import Settings component
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/settings" element={<Settings />} />
         {/* Add more routes as needed */}
       </Routes>
     </BrowserRouter>

@@ -13,39 +13,41 @@ export default function VerifyOtp() {
   const email = localStorage.getItem("email");
 
   const handleVerifyOtp = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  setMessage("");
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
 
-  try {
-    const res = await axios.post("https://aliasgar.pythonanywhere.com/api/auth/verify-otp/", {
-      email,
-      otp,
-    });
-    if (res.status === 200 && res.data.access) {
-      localStorage.setItem("accessToken", res.data.access);
-      localStorage.setItem("refreshToken", res.data.refresh);
+    try {
+      const res = await axios.post("https://aliasgar.pythonanywhere.com/api/auth/verify-otp/", {
+        email,
+        otp,
+      });
+      if (res.status === 200 && res.data.access) {
+        localStorage.setItem("accessToken", res.data.access);
+        localStorage.setItem("refreshToken", res.data.refresh);
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          email: email,
-          name: email.split("@")[0], // basic fallback name
-          picture: null, // fallback avatar
-        })
-      );
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            email: email,
+            name: email.split("@")[0], // basic fallback name
+            picture: null, // fallback avatar
+            access: res.data.access,   // ✅ store token here
+            refresh: res.data.refresh, // optional
+          })
+        );
 
-      setMessage("OTP verified successfully!");
-      navigate("/");
-    } else {
-      setMessage("Verification failed: Missing token in response.");
+        setMessage("OTP verified successfully!");
+        navigate("/");
+      } else {
+        setMessage("Verification failed: Missing token in response.");
+      }
+    } catch (error) {
+      setMessage(error.response?.data?.detail || "OTP verification failed.");
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    setMessage(error.response?.data?.detail || "OTP verification failed.");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
 
   return (

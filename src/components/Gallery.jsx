@@ -23,16 +23,6 @@ const Gallery = () => {
       src: images.ai4,
       alt: "Lehenga Collection",
     },
-    {
-      id: 5,
-      src: images.ai5,
-      alt: "Designer Saree",
-    },
-    {
-      id: 6,
-      src: images.ai6,
-      alt: "Western Gowns",
-    },
   ];
 
   return (

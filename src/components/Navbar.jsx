@@ -61,7 +61,7 @@ export default function Navbar() {
                   <li>
                     <Link
                       to="/myrentals"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
+                      className="block px-4 py-2 text-sm text-left sm:text-left text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
                     >
                       Dashboard
                     </Link>
@@ -69,7 +69,7 @@ export default function Navbar() {
                   <li>
                     <Link
                       to="/settings"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
+                      className="block px-4 py-2 text-sm text-left sm:text-left text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
                     >
                       Settings
                     </Link>
@@ -77,7 +77,7 @@ export default function Navbar() {
                   <li>
                     <Link
                       to="/cart"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
+                      className="block px-4 py-2 text-sm text-left sm:text-left text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
                     >
                       Cart
                     </Link>
@@ -85,7 +85,7 @@ export default function Navbar() {
                   <li>
                     <Link
                       to="/logout"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
+                      className="block px-4 py-2 text-sm text-left sm:text-left text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
                     >
                       Sign out
                     </Link>

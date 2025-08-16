@@ -20,7 +20,6 @@ import forher from "../assets/forher.jpg";
 import homeforhim from "../assets/homeforhim.jpg";
 import homeforher from "../assets/homeforher.jpg";
 import rentalprocessimg from "../assets/rentalprocessimg.jpg"; 
-import paperTexture from "../assets/paperTexture.jpg";
 import greendress from "../assets/greendress.jpg";
 import shervaniwhite from "../assets/shervaniwhite.jpg";
 import ai1 from "../assets/ai1.jpeg";
@@ -62,7 +61,6 @@ export const images = {
   homeforhim,
   homeforher,
   rentalprocessimg,
-  paperTexture,
   greendress,
   shervaniwhite,
   ai1,

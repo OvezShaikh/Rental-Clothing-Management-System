@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "../App.css"
 import { images } from "../constants/images"; // Adjust path if needed
 import { LuSparkle } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
@@ -39,7 +40,23 @@ const CategoryIcons = () => {
 
   // Card Component
   const CategoryCard = ({ cat }) => (
-    <div className="group relative overflow-hidden rounded-none shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer" onClick={() => navigate(`/catalog?subcategory=${cat.id}`)}>
+    <div className="group relative overflow-hidden rounded-none shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer" 
+    onClick={() =>
+      navigate(
+        `/catalog?subcategory=${cat.slug}`,
+        {
+          state: {
+            type: "subcategory",
+            subcategoryId: cat.id,
+            subcategoryName: cat.name,
+            subcategorySlug: cat.slug,
+            categoryId: cat.category,
+            categoryName: cat.category_name,
+            categorySlug: cat.category_slug,
+          },
+        }
+      )
+    }>
       {/* Image */}
       <img
         src={cat.image || images.cremejacket}
@@ -60,10 +77,19 @@ const CategoryIcons = () => {
       <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
         {title}
       </h2>
+
       {items.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div
+          className="
+          flex sm:grid sm:grid-cols-2 md:grid-cols-3 gap-4 
+          overflow-x-auto sm:overflow-visible 
+          scrollbar-hide
+        "
+        >
           {items.map((cat) => (
-            <CategoryCard key={cat.id} cat={cat} />
+            <div key={cat.id} className="w-64 sm:w-auto flex-shrink-0">
+              <CategoryCard cat={cat} />
+            </div>
           ))}
         </div>
       ) : (
@@ -73,12 +99,12 @@ const CategoryIcons = () => {
   );
 
   return (
-    <div className="px-6 py-10 bg-white dark:bg-black ">
+    <div className="px-6 py-10 bg-white dark:bg-black font-playfair">
       {loading ? (
         <p className="text-gray-500">Loading...</p>
       ) : (
         <>
-          <CategoryRow title="Women" items={getSubcategories("Womens")} />
+          <CategoryRow className="font-sans" title="Womens" items={getSubcategories("Womens")} />
           <CategoryRow title="Mens" items={getSubcategories("Mens")} />
           <CategoryRow title="Couple" items={getSubcategories("Couple")} />
         </>

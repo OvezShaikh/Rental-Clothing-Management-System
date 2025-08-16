@@ -47,7 +47,7 @@ export default function About() {
                         />
                     </div>
 
-                    <div className="lg:w-full text-center lg:text-left">
+                    <div id="how-it-works" className="lg:w-full text-center lg:text-left">
                         <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 dark:text-indigo-500 mb-6">How It Works</h2>
                         <p className="text-base text-gray-600 mb-6 leading-relaxed dark:text-white">
                             Renting with us is <strong>effortless, seamless, and delightful</strong>. We've simplified everything

@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -39,7 +38,18 @@ export default function PaymentPage() {
       }
     : cartOrder;
 
-  const [orderItems, setOrderItems] = useState(finalOrder?.items || []);
+  const [orderItems, setOrderItems] = useState(
+    (finalOrder?.items || []).map((item) => ({
+      ...item,
+      selectedDates: item.selectedDates || {
+        startDate: new Date(),
+        endDate: addDays(new Date(), 1),
+        key: "selection",
+      },
+      rentalDays: item.rentalDays || 1,
+    }))
+  );
+
   const [openCalendarIndex, setOpenCalendarIndex] = useState(null);
   const calendarRef = useRef();
 
@@ -66,7 +76,13 @@ export default function PaymentPage() {
 
   const [paymentMethod, setPaymentMethod] = useState("upi");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [userDetails, setUserDetails] = useState(null);
+
+  const [userDetails, setUserDetails] = useState(() => {
+    // Load from localStorage if exists
+    const saved = localStorage.getItem("userDetails");
+    return saved ? JSON.parse(saved) : { name: "", email: "", phone: "", address: "" };
+  });
+
   const [discountCode, setDiscountCode] = useState("");
 
   const totalAmount =
@@ -103,57 +119,93 @@ export default function PaymentPage() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) return;
-        const res = await axios.get("/api/user/profile", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setUserDetails(res.data);
-      } catch (error) {
-        console.error("Error fetching user details", error);
-        toast.error("Failed to fetch user details");
-      }
-    };
-
-    if (!finalOrder) {
-      toast.error("No order found. Redirecting...");
-      navigate("/cart");
-    } else {
-      fetchUserDetails();
-    }
-  }, [finalOrder, navigate]);
+  const handleUserUpdate = (updated) => {
+    setUserDetails(updated);
+    localStorage.setItem("userDetails", JSON.stringify(updated));
+  };
 
   const handlePayment = async () => {
-    if (!userDetails || !["name", "email", "address", "phone"].every((f) => userDetails[f])) {
-      toast.error("Please complete all required delivery details before proceeding to pay.");
+  if (!userDetails || !["name", "email", "address", "phone"].every((f) => userDetails[f])) {
+    toast.error("Please complete all required delivery details before proceeding.");
+    return;
+  }
+
+  setIsProcessing(true);
+
+  try {
+    const loaded = await loadRazorpayScript();
+    if (!loaded) {
+      toast.error("Failed to load Razorpay. Please try again.");
+      setIsProcessing(false);
       return;
     }
-    setIsProcessing(true);
-    try {
-      await axios.post("/api/payments", {
-        order: { items: orderItems, securityDeposit: finalOrder?.securityDeposit || 0 },
-        user: userDetails,
-        method: paymentMethod,
-        discountCode,
-      });
-      toast.success("Payment successful!");
-      navigate("/order-success", { state: { orderId: "ORD12345" } });
-    } catch (error) {
-      toast.error("Payment failed. Try again!");
-    } finally {
-      setIsProcessing(false);
+
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+      amount: totalAmount * 100,
+      currency: "INR",
+      name: "Rental Payment",
+      description: "Payment for rental order",
+      handler: function () {
+        toast.success("Payment Successful!");
+        navigate("/orders");
+      },
+      prefill: {
+        name: userDetails.name,
+        email: userDetails.email,
+        contact: userDetails.phone,
+      },
+      theme: { color: "#3399cc" },
+      method: {
+    netbanking: false,
+    card: true,
+    upi: true,
+    wallet: false,
+    emi: false,
+    paylater: false,
+  }, 
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  } catch (error) {
+    console.error("Payment Error:", error);
+    toast.error(error.message || "Something went wrong during payment.");
+  } finally {
+    setIsProcessing(false);
+  }
+};
+
+
+  if (!finalOrder) {
+    toast.error("No order found. Redirecting...");
+    navigate("/cart");
+    return null;
+  }
+
+  const loadRazorpayScript = () => {
+  return new Promise((resolve) => {
+    const existingScript = document.getElementById("razorpay-script");
+    if (!existingScript) {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.id = "razorpay-script";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    } else {
+      resolve(true);
     }
-  };
+  });
+};
+
 
   return (
     <>
       <Navbar />
-      <div className="p-6 max-w-7xl mx-auto grid lg:grid-cols-3 gap-8">
+      <div className="p-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
-          <UserInfoForm userData={userDetails} onUpdate={setUserDetails} />
+          <UserInfoForm userData={userDetails} onUpdate={handleUserUpdate} />
 
           <div className="bg-white rounded-xl shadow p-6">
             <h2 className="text-xl font-semibold mb-4">Payment</h2>
@@ -165,7 +217,6 @@ export default function PaymentPage() {
                 >
                   <input
                     type="radio"
-                    required
                     name="payment"
                     value={method.value}
                     checked={paymentMethod === method.value}
@@ -188,7 +239,7 @@ export default function PaymentPage() {
           </button>
         </div>
 
-        {/* Order Summary with Date Change */}
+        {/* Order Summary */}
         <div className="lg:col-span-1">
           <div className="bg-white rounded-xl shadow-lg p-6 sticky top-24 space-y-4">
             <h2 className="text-2xl font-semibold border-b pb-2">Order Summary</h2>
@@ -205,7 +256,6 @@ export default function PaymentPage() {
                       <img src={item.image} alt={item.name} className="w-16 h-16 rounded-md" />
                       <div>
                         <p className="font-medium">{item.name}</p>
-                        {/* Date Field */}
                         <div
                           onClick={() =>
                             setOpenCalendarIndex(openCalendarIndex === index ? null : index)
@@ -245,8 +295,7 @@ export default function PaymentPage() {
               );
             })}
 
-            {/* Discount Code */}
-            <div className="flex gap-2 pt-2">
+            <div className="flex flex-col sm:flex-row gap-2 pt-2">
               <input
                 type="text"
                 value={discountCode}

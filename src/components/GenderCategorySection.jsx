@@ -5,7 +5,7 @@ const GenderCategorySection = () => {
   const navigate = useNavigate();
 
   const handleNavigate = (gender) => {
-    navigate(`/catalog?gender=${gender}`);
+    navigate("/catalog", { state: { gender } });
   };
 
   return (

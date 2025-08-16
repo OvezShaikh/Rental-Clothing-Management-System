@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useItems from "../hooks/useItems";
 import useCategories from "../hooks/useCategories";
 
-const tabs = ["all", "mens", "womens", "occasion"]; // use slugs for matching
+const tabs = ["all", "mens", "womens", "couple"]; // use slugs for matching
 
 const TodaysForYouSection = () => {
   const [activeTab, setActiveTab] = useState("all");
