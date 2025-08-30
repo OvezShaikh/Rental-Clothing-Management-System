@@ -18,6 +18,8 @@ import ContactPage from "./pages/ContactPage"; // Import ContactPage component
 import CartPage from "./pages/CartPage";
 import PaymentPage from "./pages/PaymentPage";
 import Settings from "./pages/Settings"; // Import Settings component
+import TrackOrder from "./pages/TrackOrder"; // Import TrackOrder component
+import AdminDashboard from "./pages/AdminDashboard"; // Import AdminDashboard component
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
         {/* <Route path="/login" element={<Login />} /> */}
         {/* <Route path="/register" element={<Register />} /> */}
         <Route path="/about" element={<About />} />
@@ -41,6 +44,8 @@ function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/track-order" element={<TrackOrder />} />
+        <Route path="/track-order/:orderId" element={<TrackOrder />} />
         {/* Add more routes as needed */}
       </Routes>
     </BrowserRouter>

@@ -7,8 +7,10 @@ export default function Sidebar({ isOpen, onClose }) {
 
   const navItems = [
     // { name: "Dashboard", path: "/dashboard" },
+    { name: "Admin", path: "/admin" },
     { name: "Catalog", path: "/catalog" },
     { name: "My Rentals", path: "/myrentals" },
+    { name: "Track Order", path: "/track-order" },
     { name: "Wishlist", path: "/wishlist" },
     { name: "Profile", path: "/profile" },
     { name: "FAQ", path: "/faq" },

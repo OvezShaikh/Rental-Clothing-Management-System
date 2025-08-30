@@ -21,21 +21,21 @@ export default function PaymentPage() {
 
   const finalOrder = singleItem
     ? {
-        items: [
-          {
-            name: singleItem.name,
-            price: singleItem.price,
-            rentalDays: 1,
-            image: singleItem.image,
-            selectedDates: {
-              startDate: new Date(),
-              endDate: addDays(new Date(), 1),
-              key: "selection",
-            },
+      items: [
+        {
+          name: singleItem.name,
+          price: singleItem.price,
+          rentalDays: 1,
+          image: singleItem.image,
+          selectedDates: {
+            startDate: new Date(),
+            endDate: addDays(new Date(), 1),
+            key: "selection",
           },
-        ],
-        securityDeposit: 0,
-      }
+        },
+      ],
+      securityDeposit: 0,
+    }
     : cartOrder;
 
   const [orderItems, setOrderItems] = useState(
@@ -124,8 +124,8 @@ export default function PaymentPage() {
     localStorage.setItem("userDetails", JSON.stringify(updated));
   };
 
-  const handlePayment = async () => {
-  if (!userDetails || !["name", "email", "address", "phone"].every((f) => userDetails[f])) {
+const handlePayment = async () => {
+  if (!userDetails || !["name", "email", "address", "phone"].every(f => userDetails[f])) {
     toast.error("Please complete all required delivery details before proceeding.");
     return;
   }
@@ -133,48 +133,121 @@ export default function PaymentPage() {
   setIsProcessing(true);
 
   try {
-    const loaded = await loadRazorpayScript();
-    if (!loaded) {
-      toast.error("Failed to load Razorpay. Please try again.");
-      setIsProcessing(false);
-      return;
-    }
+    const user = JSON.parse(localStorage.getItem("user"));
+    const token = user?.access;
 
+    // 1️⃣ Step 1: Create pending order in backend
+    const orderPayload = {
+      user_email: user?.email || userDetails.email,
+      status: "pending", // mark as pending until payment succeeds
+      security_deposit: finalOrder?.securityDeposit || 0,
+      items: orderItems.map(item => ({
+        item: item.id,
+        size: item.size || "M",
+        quantity: item.quantity || 1,
+      })),
+      start_date: orderItems[0].selectedDates.startDate.toISOString().split("T")[0],
+      end_date: orderItems[0].selectedDates.endDate.toISOString().split("T")[0],
+      size: orderItems[0]?.size,
+    };
+
+    const createOrderRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/orders/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify(orderPayload),
+    });
+
+    if (!createOrderRes.ok) throw new Error("Failed to create order");
+
+    const orderData = await createOrderRes.json();
+    const orderId = orderData.id;
+
+    // 2️⃣ Step 2: Create Razorpay payment using backend orderId
+    const paymentPayload = {
+      order_id: orderId,
+      name: userDetails.name,
+      email: userDetails.email,
+      phone: userDetails.phone,
+      address: userDetails.address,
+    };
+
+    const createPaymentRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/payment/create/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify(paymentPayload),
+    });
+
+    if (!createPaymentRes.ok) throw new Error("Failed to create payment order");
+
+    const paymentData = await createPaymentRes.json();
+
+    // 3️⃣ Load Razorpay script
+    const loaded = await loadRazorpayScript();
+    if (!loaded) throw new Error("Failed to load Razorpay script");
+
+    // 4️⃣ Open Razorpay checkout
     const options = {
-      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-      amount: totalAmount * 100,
-      currency: "INR",
+      key: paymentData.razorpay_key,
+      amount: paymentData.amount,
+      currency: paymentData.currency,
       name: "Rental Payment",
       description: "Payment for rental order",
-      handler: function () {
-        toast.success("Payment Successful!");
-        navigate("/orders");
-      },
+      order_id: paymentData.razorpay_order_id,
       prefill: {
         name: userDetails.name,
         email: userDetails.email,
         contact: userDetails.phone,
       },
+      handler: async function (response) {
+        try {
+          // 5️⃣ Update order after successful payment
+          await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/orders/${orderId}/`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+            body: JSON.stringify({ payment_id: response.razorpay_payment_id, status: "paid" }),
+          });
+
+          // 6️⃣ Create shipment
+          await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/shipments/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+            body: JSON.stringify({ order_id: orderId, address: userDetails.address }),
+          });
+
+          toast.success("✅ Payment successful, order and shipment created!");
+          navigate(`/track-order/${orderId}`);
+        } catch (err) {
+          console.error("Post-payment Error:", err);
+          toast.error(err.message || "Something went wrong after payment.");
+        }
+      },
       theme: { color: "#3399cc" },
-      method: {
-    netbanking: false,
-    card: true,
-    upi: true,
-    wallet: false,
-    emi: false,
-    paylater: false,
-  }, 
+      method: { card: true, upi: true, netbanking: false, wallet: false },
     };
 
     const rzp = new window.Razorpay(options);
     rzp.open();
-  } catch (error) {
-    console.error("Payment Error:", error);
-    toast.error(error.message || "Something went wrong during payment.");
+  } catch (err) {
+    console.error("Payment Error:", err);
+    toast.error(err.message || "Something went wrong during payment.");
   } finally {
     setIsProcessing(false);
   }
 };
+
+
 
 
   if (!finalOrder) {
@@ -184,20 +257,20 @@ export default function PaymentPage() {
   }
 
   const loadRazorpayScript = () => {
-  return new Promise((resolve) => {
-    const existingScript = document.getElementById("razorpay-script");
-    if (!existingScript) {
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.id = "razorpay-script";
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    } else {
-      resolve(true);
-    }
-  });
-};
+    return new Promise((resolve) => {
+      const existingScript = document.getElementById("razorpay-script");
+      if (!existingScript) {
+        const script = document.createElement("script");
+        script.src = "https://checkout.razorpay.com/v1/checkout.js";
+        script.id = "razorpay-script";
+        script.onload = () => resolve(true);
+        script.onerror = () => resolve(false);
+        document.body.appendChild(script);
+      } else {
+        resolve(true);
+      }
+    });
+  };
 
 
   return (

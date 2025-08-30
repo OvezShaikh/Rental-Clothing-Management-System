@@ -15,30 +15,42 @@ export default function ServiceHighlights() {
         </div> */}
 
         {/* Highlights */}
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-4 text-center">
+        <div className="grid grid-cols-6 gap-2 text-center">
           <div className="flex flex-col items-center">
-            <FaTruck className="text-2xl mb-2 text-gray-700 dark:text-gray-300" />
-            <p className="text-sm font-medium text-gray-800 dark:text-gray-100">Pan India Delivery</p>
+            <FaTruck className="text-xl md:text-3xl mb-1 text-gray-700 dark:text-gray-300" />
+            <p className="text-[10px] sm:text-xs md:text-sm lg:text-base font-medium text-gray-800 dark:text-gray-100">
+              Pan India Delivery
+            </p>
           </div>
           <div className="flex flex-col items-center">
-            <FaMoneyBillWave className="text-2xl mb-2 text-gray-700 dark:text-gray-300" />
-            <p className="text-sm font-medium text-gray-800 dark:text-gray-100">COD (Partial Advance)</p>
+            <FaMoneyBillWave className="text-xl md:text-3xl mb-1 text-gray-700 dark:text-gray-300" />
+            <p className="text-[10px] sm:text-xs md:text-sm lg:text-base font-medium text-gray-800 dark:text-gray-100">
+              COD (Partial Advance)
+            </p>
           </div>
           <div className="flex flex-col items-center">
-            <FaStore className="text-2xl mb-2 text-gray-700 dark:text-gray-300" />
-            <p className="text-sm font-medium text-gray-800 dark:text-gray-100">In-Store Trial</p>
+            <FaStore className="text-xl md:text-3xl mb-1 text-gray-700 dark:text-gray-300" />
+            <p className="text-[10px] sm:text-xs md:text-sm lg:text-base font-medium text-gray-800 dark:text-gray-100">
+              In-Store Trial
+            </p>
           </div>
           <div className="flex flex-col items-center">
-            <FaUndo className="text-2xl mb-2 text-gray-700 dark:text-gray-300" />
-            <p className="text-sm font-medium text-gray-800 dark:text-gray-100">Easy Returns</p>
+            <FaUndo className="text-xl md:text-3xl mb-1 text-gray-700 dark:text-gray-300" />
+            <p className="text-[10px] sm:text-xs md:text-sm lg:text-base font-medium text-gray-800 dark:text-gray-100">
+              Easy Returns
+            </p>
           </div>
           <div className="flex flex-col items-center">
-            <FaTags className="text-2xl mb-2 text-gray-700 dark:text-gray-300" />
-            <p className="text-sm font-medium text-gray-800 dark:text-gray-100">Free Shipping</p>
+            <FaTags className="text-xl md:text-3xl mb-1 text-gray-700 dark:text-gray-300" />
+            <p className="text-[10px] sm:text-xs md:text-sm lg:text-base font-medium text-gray-800 dark:text-gray-100">
+              Free Shipping
+            </p>
           </div>
           <div className="flex flex-col items-center">
-            <FaCheckCircle className="text-2xl mb-2 text-gray-700 dark:text-gray-300" />
-            <p className="text-sm font-medium text-gray-800 dark:text-gray-100">Quality Check</p>
+            <FaCheckCircle className="text-xl md:text-3xl mb-1 text-gray-700 dark:text-gray-300" />
+            <p className="text-[10px] sm:text-xs md:text-sm lg:text-base font-medium text-gray-800 dark:text-gray-100">
+              Quality Check
+            </p>
           </div>
         </div>
       </div>

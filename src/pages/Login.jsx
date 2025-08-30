@@ -28,12 +28,52 @@ export default function Login() {
     );
   }, []);
 
-  const handleGoogleLogin = (response) => {
-    console.log(window.location.origin);
-    const userData = jwtDecode(response.credential);
-    localStorage.setItem("user", JSON.stringify(userData));
-    navigate("/catalog");
-  };
+  const handleGoogleLogin = async (response) => {
+  const googleProfile = jwtDecode(response.credential);
+
+  try {
+    // Check if user already exists locally
+    const existingUser = JSON.parse(localStorage.getItem("user"));
+    const payload = {
+      token: response.credential,
+      email: existingUser?.email || googleProfile.email, // pass existing email if available
+    };
+
+    const res = await axios.post(
+      "https://aliasgar.pythonanywhere.com/api/auth/google-login/",
+      payload
+    );
+
+    if (res.data?.access) {
+      const userPayload = {
+        access: res.data.access,
+        refresh: res.data.refresh,
+        name: googleProfile.name,
+        email: googleProfile.email,
+        picture: googleProfile.picture,
+      };
+      localStorage.setItem("user", JSON.stringify(userPayload));
+      console.log("Google JWT:", response.credential);
+      navigate("/catalog");
+    } else {
+      setMessage("Google login failed. Please try again.");
+    }
+  } catch (error) {
+    console.error("❌ Google login error:", error.response?.data || error.message);
+
+    // Fallback: store minimal info to avoid breaking rentals
+    const fallbackUser = {
+      access: null,
+      refresh: null,
+      name: googleProfile.name,
+      email: googleProfile.email,
+      picture: googleProfile.picture,
+    };
+    localStorage.setItem("user", JSON.stringify(fallbackUser));
+    navigate("/catalog"); // Rentals page will merge duplicates automatically
+  }
+};
+
 
   const handleSendOtp = async (e) => {
   e.preventDefault();

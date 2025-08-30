@@ -30,7 +30,7 @@ const HeroBanner = () => {
   const nextRef = useRef(null);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full -mt-16">
       {/* Custom Nav Buttons */}
       <div className="absolute top-1/2 -translate-y-1/2 left-2 z-20 hidden sm:block">
         <button
@@ -66,7 +66,7 @@ const HeroBanner = () => {
       >
         {bannerSlides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <div className="relative w-full h-[500px] flex justify-center items-center overflow-hidden">
+            <div className="relative w-full h-[580px] flex justify-center items-center overflow-hidden">
               {/* Background Image */}
               <img
                 src={slide.image}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../App.css"
+import "../App.css";
 import { images } from "../constants/images"; // Adjust path if needed
 import { LuSparkle } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
@@ -10,12 +10,11 @@ const CategoryIcons = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Map category IDs to readable parent names
+  // Map category IDs to display names (easy to rename anytime)
   const categoryMap = {
-    14: "Womens",
-    13: "Mens",
-    15: "Couple",
-    // add more IDs if needed
+    2: "Elegance Edit",   // Women
+    1: "Dapper Den",      // Men
+    3: "Couple Couture",  // Couple
   };
 
   useEffect(() => {
@@ -35,16 +34,16 @@ const CategoryIcons = () => {
     fetchSubcategories();
   }, []);
 
-  const getSubcategories = (parentName) =>
-    subcategories.filter((sub) => categoryMap[sub.category] === parentName);
+  // Filter subcategories by category ID
+  const getSubcategories = (categoryId) =>
+    subcategories.filter((sub) => sub.category === categoryId);
 
   // Card Component
   const CategoryCard = ({ cat }) => (
-    <div className="group relative overflow-hidden rounded-none shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer" 
-    onClick={() =>
-      navigate(
-        `/catalog?subcategory=${cat.slug}`,
-        {
+    <div
+      className="group relative overflow-hidden rounded-none shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+      onClick={() =>
+        navigate(`/catalog?subcategory=${cat.slug}`, {
           state: {
             type: "subcategory",
             subcategoryId: cat.id,
@@ -54,9 +53,9 @@ const CategoryIcons = () => {
             categoryName: cat.category_name,
             categorySlug: cat.category_slug,
           },
-        }
-      )
-    }>
+        })
+      }
+    >
       {/* Image */}
       <img
         src={cat.image || images.cremejacket}
@@ -65,9 +64,19 @@ const CategoryIcons = () => {
       />
       {/* Label */}
       <div className="flex flex-row justify-center absolute gap-2 items-center bottom-2 left-0 w-full bg-white/90 text-center py-2 tracking-wider uppercase font-semibold text-gray-800 border-t border-gray-300">
-        <LuSparkle size={12} stroke="black" fill="black" style={{ transform: "scaleY(1.5)" }} />
+        <LuSparkle
+          size={12}
+          stroke="black"
+          fill="black"
+          style={{ transform: "scaleY(1.5)" }}
+        />
         {cat.name}
-        <LuSparkle size={12} stroke="black" fill="black" style={{ transform: "scaleY(1.5)" }} />
+        <LuSparkle
+          size={12}
+          stroke="black"
+          fill="black"
+          style={{ transform: "scaleY(1.5)" }}
+        />
       </div>
     </div>
   );
@@ -104,9 +113,13 @@ const CategoryIcons = () => {
         <p className="text-gray-500">Loading...</p>
       ) : (
         <>
-          <CategoryRow className="font-sans" title="Womens" items={getSubcategories("Womens")} />
-          <CategoryRow title="Mens" items={getSubcategories("Mens")} />
-          <CategoryRow title="Couple" items={getSubcategories("Couple")} />
+          {Object.entries(categoryMap).map(([id, title]) => (
+            <CategoryRow
+              key={id}
+              title={title}
+              items={getSubcategories(Number(id))}
+            />
+          ))}
         </>
       )}
     </div>

@@ -119,7 +119,7 @@ export default function ProductPage() {
             </div>
 
             {/* Thumbnails (Tablet - below main image) */}
-            <div className="flex gap-2 mt-2 md:hidden overflow-x-auto">
+            <div className="flex flex-row gap-2 mt-2 md:hidden overflow-x-auto">
               {product.images.map((img, index) => (
                 <img
                   key={index}
@@ -136,7 +136,7 @@ export default function ProductPage() {
           {/* Product Info */}
           <div className="space-y-4">
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">{product.name}</h1>
-            <div className="flex items-center gap-2 text-yellow-500">
+            <div className="flex justify-center gap-2 text-yellow-500">
               {[...Array(5)].map((_, i) => (
                 <FaStar key={i} />
               ))}
@@ -155,7 +155,7 @@ export default function ProductPage() {
             {/* Size Selector */}
             {availableSizes.length > 0 && (
               <div>
-                <p className="font-medium text-xs sm:text-sm text-gray-700 mb-2">Select Size:</p>
+                <p className="font-medium text-xs sm:text-sm justify-start items-start text-left text-gray-700 mb-2">Select Size:</p>
                 <div className="flex gap-2 flex-wrap">
                   {availableSizes.map((size) => (
                     <button

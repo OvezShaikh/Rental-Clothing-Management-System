@@ -40,8 +40,9 @@ const Home = () => {
       <Navbar />
       <HeroBanner />
       <CategoryIcons />
-      <GenderCategorySection />
+      
       <ServiceHighlights />
+      <GenderCategorySection />
 
       {/* Placeholder for BentoGrid or ProductCard if needed */}
       {/* <BentoGrid /> */}
@@ -50,10 +51,11 @@ const Home = () => {
 
       {/* Flash Sale Section */}
       <FlashSaleSection />
-      {/* Gallery Section */}
-      <Gallery />
       {/* Rental Process Section */}
       <RentalProcess />
+      {/* Gallery Section */}
+      <Gallery />
+      
 
       {/* Future sections to add below: */}
       {/* <BestSellingStores /> */}
