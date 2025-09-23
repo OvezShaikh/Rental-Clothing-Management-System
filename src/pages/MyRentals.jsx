@@ -9,35 +9,42 @@ export default function MyRentals() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchRentals = async () => {
-      setLoading(true);
-      let userData = null;
+  const fetchRentals = async () => {
+    setLoading(true);
+    let userData = null;
 
-      try {
-        userData = JSON.parse(localStorage.getItem("user"));
-        if (!userData?.access) {
-          setError("No active session. Please log in.");
-          setLoading(false);
-          return;
-        }
-
-        const res = await axios.get(
-          "https://aliasgar.pythonanywhere.com/api/rentals/orders/",
-          { headers: { Authorization: `Bearer ${userData.access}` } }
-        );
-
-        setMyRentals(res.data || []);
-      } catch (err) {
-        console.error("❌ Rentals fetch error:", err.response?.data || err.message);
-        setError("Failed to fetch rentals. Please login again.");
-        localStorage.removeItem("user");
-      } finally {
+    try {
+      userData = JSON.parse(localStorage.getItem("user"));
+      if (!userData?.access) {
+        setError("No active session. Please log in.");
         setLoading(false);
+        return;
       }
-    };
 
-    fetchRentals();
-  }, []);
+      const res = await axios.get(
+        "https://aliasgar.pythonanywhere.com/api/rentals/orders/",
+        { headers: { Authorization: `Bearer ${userData.access}` } }
+      );
+
+      // 👇 filter rentals by logged-in user’s email
+      const filtered = (res.data || []).filter(
+        (rental) =>
+          rental.user_email === userData.email || rental.user === userData.username
+      );
+
+      setMyRentals(filtered);
+    } catch (err) {
+      console.error("❌ Rentals fetch error:", err.response?.data || err.message);
+      setError("Failed to fetch rentals. Please login again.");
+      localStorage.removeItem("user");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchRentals();
+}, []);
+
 
   if (loading)
     return (

@@ -1,13 +1,45 @@
 import { Link, useLocation } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import { FaHeart, FaTruck, FaCheck } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 export default function Sidebar({ isOpen, onClose }) {
   const { pathname } = useLocation();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      const token = storedUser?.access;
+      if (!token) return;
+
+      const decoded = jwtDecode(token);
+
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/auth/list/`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      const users = res.data;
+      const currentUser = users.find((u) => u.id === decoded?.user_id);
+
+      if (currentUser?.is_staff) {
+        setIsAdmin(true);
+      }
+    } catch (err) {
+      console.error("Error fetching user:", err);
+    }
+  };
+
+  fetchUser();
+}, []);
 
   const navItems = [
     // { name: "Dashboard", path: "/dashboard" },
-    { name: "Admin", path: "/admin" },
+    ...(isAdmin ? [{ name: "Admin", path: "/admin" }] : []),
     { name: "Catalog", path: "/catalog" },
     { name: "My Rentals", path: "/myrentals" },
     { name: "Track Order", path: "/track-order" },

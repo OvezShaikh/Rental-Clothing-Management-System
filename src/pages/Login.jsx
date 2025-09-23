@@ -30,6 +30,8 @@ export default function Login() {
 
   const handleGoogleLogin = async (response) => {
   const googleProfile = jwtDecode(response.credential);
+   console.log("Decoded Google Profile:", googleProfile);
+  console.log("Profile Picture:", googleProfile.picture);
 
   try {
     // Check if user already exists locally

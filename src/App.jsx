@@ -1,25 +1,23 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import "./index.css"; // Ensure Tailwind CSS is imported
-// import Register from "./pages/Register";
+import "./index.css";
 import About from "./pages/About";
 import FAQ from "./pages/faq";
-import { FaQ } from "react-icons/fa6";
 import Dashboard from "./pages/Dashboard";
 import Catalog from "./pages/Catalog";
 import MyRentals from "./pages/MyRentals";
-import ScrollToTop from "./components/ScrollToTop"; // Import ScrollToTop component
+import ScrollToTop from "./components/ScrollToTop";
 import Login from "./pages/Login";
 import VerifyOtp from "./pages/VerifyOtp";
 import ProductPage from "./pages/ProductPage";
-import ProtectedRoute from "./components/ProtectedRoute"; // Import ProtectedRoute component
-import Logout from "./pages/Logout"; // Import Logout component
-import ContactPage from "./pages/ContactPage"; // Import ContactPage component
+import ProtectedRoute from "./components/ProtectedRoute";
+import Logout from "./pages/Logout";
+import ContactPage from "./pages/ContactPage";
 import CartPage from "./pages/CartPage";
 import PaymentPage from "./pages/PaymentPage";
-import Settings from "./pages/Settings"; // Import Settings component
-import TrackOrder from "./pages/TrackOrder"; // Import TrackOrder component
-import AdminDashboard from "./pages/AdminDashboard"; // Import AdminDashboard component
+import Settings from "./pages/Settings";
+import TrackOrder from "./pages/TrackOrder";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   return (

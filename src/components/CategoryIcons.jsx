@@ -12,9 +12,9 @@ const CategoryIcons = () => {
 
   // Map category IDs to display names (easy to rename anytime)
   const categoryMap = {
-    2: "Elegance Edit",   // Women
-    1: "Dapper Den",      // Men
-    3: "Couple Couture",  // Couple
+    2: "Heritage & Grace",   // Women
+    1: "Gentleman’s Wardrobe",      // Men
+    3: "Together in Style",  // Couple
   };
 
   useEffect(() => {

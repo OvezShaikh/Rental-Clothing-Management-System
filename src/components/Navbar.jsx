@@ -153,14 +153,14 @@ export default function Navbar() {
                       Dashboard
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link
                       to="/settings"
                       className="block px-4 py-2 text-sm text-gray-800 hover:bg-white/40 dark:hover:bg-gray-700/50"
                     >
                       Settings
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link
                       to="/cart"

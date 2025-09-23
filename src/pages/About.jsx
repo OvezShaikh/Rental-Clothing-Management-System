@@ -1,11 +1,13 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import TopBanner from "../components/TopBanner";
 import { images } from "../constants/images";
 
 export default function About() {
     return (
         <>
+            <TopBanner />
             <Navbar />
             <main className="bg-white min-h-screen flex flex-col items-center text-gray-800 dark:bg-gray-800 dark:text-white">
                 {/* Hero Section */}

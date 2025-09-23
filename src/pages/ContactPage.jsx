@@ -1,10 +1,12 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import TopBanner from "../components/TopBanner";
 
 export default function ContactPage() {
     return (
         <div className="bg-white text-gray-800 dark:bg-gray-800 dark:text-white">
+            <TopBanner />
             <Navbar />
             {/* Header Section */}
             <section className="bg-gradient-to-r from-pink-100 to-purple-100 py-16 px-4 text-center">

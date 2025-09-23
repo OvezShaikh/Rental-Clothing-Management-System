@@ -9,6 +9,9 @@ import GenderCategorySection from "../components/GenderCategorySection";
 import ServiceHighlights from "../components/ServiceHighlights";
 import RentalProcess from "../components/RentalProcess";
 import Gallery from "../components/Gallery";
+import TopBanner from "../components/TopBanner";
+import InstagramFeed from "../components/InstagramFeed";
+import TrendingLooks from "../components/TrendingLooks";
 // import ProductCard from "../components/ProductCard"; // Can be used for later sections
 // import ProductQuickView from "../components/ProductQuickView";
 // import BentoGrid from "../components/BentoGrid";
@@ -37,11 +40,15 @@ const Home = () => {
 
   return (
     <>
+      <TopBanner />
       <Navbar />
       <HeroBanner />
+      <ServiceHighlights />
+      <TrendingLooks />
+      <InstagramFeed />
       <CategoryIcons />
       
-      <ServiceHighlights />
+      
       <GenderCategorySection />
 
       {/* Placeholder for BentoGrid or ProductCard if needed */}

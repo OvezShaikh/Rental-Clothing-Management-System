@@ -108,6 +108,7 @@ const TodaysForYouSection = () => {
                   "https://via.placeholder.com/300x400?text=No+Image"
                 }
                 alt={item.name}
+                loading="lazy"
                 className="w-full h-[300px] object-cover rounded-md mb-3"
               />
               <h3 className="text-md font-semibold text-gray-800">

@@ -37,6 +37,13 @@ import heroimg2 from "../assets/heroimg2.jpg";
 import heroimg3 from "../assets/heroimg3.jpg";
 import heroimg4 from "../assets/heroimg4.png";
 import heroimg5 from "../assets/heroimg5.png";
+import groupphoto from "../assets/groupphoto.png";
+import solophoto from "../assets/solophoto.jpeg";
+import femalecouple from "../assets/femalecouple.jpeg";
+import trending1 from "../assets/trending1.jpeg";
+import trending2 from "../assets/trending2.jpg";
+import trending3 from "../assets/trending3.jpg";
+import trending4 from "../assets/trending4.jpg";
 
 export const images = {
   brownjacket, 
@@ -78,4 +85,11 @@ export const images = {
   heroimg3,
   heroimg4,
   heroimg5,
+  groupphoto,
+  solophoto,
+  femalecouple,
+  trending1,
+  trending2,
+  trending3,
+  trending4,
 }
