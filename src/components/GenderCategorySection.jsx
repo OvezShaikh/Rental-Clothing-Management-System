@@ -17,7 +17,7 @@ const GenderCategorySection = () => {
         className="relative cursor-pointer w-full md:w-1/2 aspect-[3/2] md:aspect-auto h-[300px] md:h-[400px] overflow-hidden group"
       >
         <img
-          src={images.homeforher}
+          src={images.for_her}
           alt="For Her"
           className="w-full h-full object-cover group-hover:brightness-75 transition"
         />
@@ -32,7 +32,7 @@ const GenderCategorySection = () => {
         className="relative cursor-pointer w-full md:w-1/2 aspect-[3/2] md:aspect-auto h-[300px] md:h-[400px] overflow-hidden group"
       >
         <img
-          src={images.homeforhim}
+          src={images.for_him}
           alt="For Him"
           className="w-full h-full object-cover group-hover:brightness-75 transition"
         />

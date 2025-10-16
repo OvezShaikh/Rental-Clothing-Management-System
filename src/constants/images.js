@@ -44,6 +44,15 @@ import trending1 from "../assets/trending1.jpeg";
 import trending2 from "../assets/trending2.jpg";
 import trending3 from "../assets/trending3.jpg";
 import trending4 from "../assets/trending4.jpg";
+import d1 from "../assets/d1.jpeg";
+import d2 from "../assets/d2.jpeg";
+import d3 from "../assets/d3.jpeg";
+import d4 from "../assets/d4.jpeg";
+import d5 from "../assets/d5.jpeg";
+import d6 from "../assets/d6.jpeg";
+import d7 from "../assets/d7.jpeg";
+import for_her from "../assets/for_her.jpeg";
+import for_him from "../assets/for_him.jpeg";
 
 export const images = {
   brownjacket, 
@@ -92,4 +101,13 @@ export const images = {
   trending2,
   trending3,
   trending4,
+  d1,
+  d2,
+  d3,
+  d4,
+  d5,
+  d6,
+  d7,
+  for_her,
+  for_him,
 }

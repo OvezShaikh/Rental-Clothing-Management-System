@@ -4,12 +4,12 @@ import { images } from "../constants/images";
 export default function TrendingLooks() {
   const banner = images.groupphoto; // replace with your banner image path
   const products = [
-    images.solophoto,
-    images.femalecouple,
-    images.trending3,
-    images.forhim,
-    images.trending2,
-    images.trending4,
+    images.d1,
+    images.d2,
+    images.d3,
+    images.d4,
+    images.d5,
+    images.d6,
   ];
 
   return (

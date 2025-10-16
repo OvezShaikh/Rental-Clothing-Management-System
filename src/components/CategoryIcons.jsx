@@ -12,8 +12,8 @@ const CategoryIcons = () => {
 
   // Map category IDs to display names (easy to rename anytime)
   const categoryMap = {
-    2: "Heritage & Grace",   // Women
-    1: "Gentleman’s Wardrobe",      // Men
+    2: "On trend collection for women",   // Women
+    1: "On trend collection for men",      // Men
     3: "Together in Style",  // Couple
   };
 
