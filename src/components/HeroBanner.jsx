@@ -9,12 +9,12 @@ import { images } from "../constants/images";
 
 const bannerSlides = [
   {
-    image: images.heroimg1,
+    image: images.hero_img1,
     title: "Look Luxe, Spend Less",
     subtitle: "Designer-grade outfits, rental prices. 24-hour delivery.",
   },
   {
-    image: images.heroimg5,
+    image: images.hero_img2,
     title: "Tradition, Tailored",
     subtitle: "Hand-picked sarees, lehengas & kurta sets for every festivity.",
   },

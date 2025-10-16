@@ -53,6 +53,8 @@ import d6 from "../assets/d6.jpeg";
 import d7 from "../assets/d7.jpeg";
 import for_her from "../assets/for_her.jpeg";
 import for_him from "../assets/for_him.jpeg";
+import hero_img1 from "../assets/hero_img1.jpeg";
+import hero_img2 from "../assets/hero_img2.jpeg";
 
 export const images = {
   brownjacket, 
@@ -110,4 +112,6 @@ export const images = {
   d7,
   for_her,
   for_him,
+  hero_img1,
+  hero_img2,
 }
