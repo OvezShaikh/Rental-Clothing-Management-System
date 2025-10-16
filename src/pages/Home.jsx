@@ -44,6 +44,8 @@ const Home = () => {
       <Navbar />
       <HeroBanner />
       <ServiceHighlights />
+      {/* Rental Process Section */}
+      <RentalProcess />
       <TrendingLooks />
       <InstagramFeed />
       <CategoryIcons />
@@ -58,8 +60,7 @@ const Home = () => {
 
       {/* Flash Sale Section */}
       <FlashSaleSection />
-      {/* Rental Process Section */}
-      <RentalProcess />
+      
       {/* Gallery Section */}
       <Gallery />
       
