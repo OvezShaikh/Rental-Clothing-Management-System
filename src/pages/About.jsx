@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import TopBanner from "../components/TopBanner";
 import { images } from "../constants/images";
+import ShopGallery from "../components/ShopGallery";
 
 export default function About() {
     return (
@@ -28,13 +29,10 @@ export default function About() {
                         className="rounded-lg shadow-lg w-full object-cover"
                     />
                     <div>
-                        <h2 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-500 mb-4">Our Mission</h2>
+                        {/* <h2 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-500 mb-4">Our Mission</h2> */}
                         <p className="text-base leading-relaxed text-gray-700 dark:text-white">
-                            Our mission is to redefine fashion accessibility in a world where style is often seen as a luxury. We believe that everyone — regardless of background, budget, or body type — should have the opportunity to wear stylish, high-quality outfits for any occasion without the pressure or burden of ownership.
-
-                            By embracing circular fashion, we promote sustainable choices that benefit both your wallet and the planet. With us, there’s no need to compromise between looking good and doing good — you can do both effortlessly.
-
-                            We’re not just here to rent clothing; we’re here to empower self-expression, support sustainability, and build a community where fashion is shared, celebrated, and reimagined.
+                            Welcome to Paridhra Rental Shop, your trusted destination for affordable and elegant rentals that add charm to every occasion.
+                            Founded with the vision of making fashion and celebration more sustainable and budget-friendly, we offer a wide range of curated items for rent - from traditional and ethnic wear to event essentials and accessories for both women and men.
                         </p>
                     </div>
                 </section>
@@ -138,6 +136,8 @@ export default function About() {
             <span className="text-indigo-600 font-medium">Contact us anytime — we're here to help!</span>
           </p>
         </section> */}
+
+        <ShopGallery />
             </main>
             <Footer />
         </>

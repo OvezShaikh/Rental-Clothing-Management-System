@@ -12,6 +12,7 @@ import Gallery from "../components/Gallery";
 import TopBanner from "../components/TopBanner";
 import InstagramFeed from "../components/InstagramFeed";
 import TrendingLooks from "../components/TrendingLooks";
+import ShopGallery from "../components/ShopGallery";
 // import ProductCard from "../components/ProductCard"; // Can be used for later sections
 // import ProductQuickView from "../components/ProductQuickView";
 // import BentoGrid from "../components/BentoGrid";
@@ -71,7 +72,7 @@ const Home = () => {
       {/* Future sections to add below: */}
       <TodaysForYouSection />
       {/* <BestSellingStores /> */}
-
+      <ShopGallery />
       <Footer />
     </>
   );

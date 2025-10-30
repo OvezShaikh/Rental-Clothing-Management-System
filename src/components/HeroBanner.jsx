@@ -10,8 +10,8 @@ import { images } from "../constants/images";
 const bannerSlides = [
   {
     image: images.hero_img1,
-    title: "Look Luxe, Spend Less",
-    subtitle: "Designer-grade outfits, rental prices. 24-hour delivery.",
+    title: "Welcome to Paridhra Rental Shop",
+    subtitle: "Your trusted destination for affordable and elegant rentals.",
   },
   {
     image: images.hero_img2,

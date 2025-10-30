@@ -4,6 +4,7 @@ import { HashLink } from 'react-router-hash-link';
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaArrowRight } from "react-icons/fa";
 import logo from "../assets/logo.svg";
 import useCategories from "../hooks/useCategories";
+import { images } from "../constants/images";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -72,6 +73,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-900 text-gray-300 px-6 sm:px-10 py-12 z-80">
+
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
         {/* Logo & Description */}
@@ -170,7 +172,7 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="border-t border-gray-700 mt-12 pt-6 text-sm flex flex-col sm:flex-row justify-between items-center gap-4">
-        <div>© {new Date().getFullYear()} FashionRent. All rights reserved.</div>
+        <div>© {new Date().getFullYear()} Paridhra. All rights reserved.</div>
         <div className="space-x-4 text-left">
           <Link to="/privacy" className="hover:text-white">Privacy Policy</Link>
           <Link to="/terms" className="hover:text-white">Terms</Link>

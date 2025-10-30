@@ -12,9 +12,9 @@ const CategoryIcons = () => {
 
   // Map category IDs to display names (easy to rename anytime)
   const categoryMap = {
-    2: "On trend collection for women",   // Women
-    1: "On trend collection for men",      // Men
-    3: "Together in Style",  // Couple
+    2: "Timeless Ethnic Styles for Her",   // Women
+    1: "Timeless Ethnic Styles for Him",      // Men
+    3: "Accessories",  // Couple
   };
 
   useEffect(() => {
@@ -113,12 +113,12 @@ const CategoryIcons = () => {
         <p className="text-gray-500">Loading...</p>
       ) : (
         <>
-          {Object.entries(categoryMap).map(([id, title]) => (
+          {[2, 1, 3].map((id) => (
             <CategoryRow
-              key={id}
-              title={title}
-              items={getSubcategories(Number(id))}
-            />
+            key={id}
+            title={categoryMap[id]}
+            items={getSubcategories(id)}
+          />
           ))}
         </>
       )}

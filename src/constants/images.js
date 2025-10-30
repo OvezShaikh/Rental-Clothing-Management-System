@@ -55,6 +55,8 @@ import for_her from "../assets/for_her.jpeg";
 import for_him from "../assets/for_him.jpeg";
 import hero_img1 from "../assets/hero_img1.jpeg";
 import hero_img2 from "../assets/hero_img2.jpeg";
+import shop1 from "../assets/shop1.jpg";
+import shop2 from "../assets/shop2.jpg";
 
 export const images = {
   brownjacket, 
@@ -114,4 +116,6 @@ export const images = {
   for_him,
   hero_img1,
   hero_img2,
+  shop1,
+  shop2,
 }
