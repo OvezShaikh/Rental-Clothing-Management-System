@@ -12,8 +12,8 @@ const CategoryIcons = () => {
 
   // Map category IDs to display names (easy to rename anytime)
   const categoryMap = {
-    2: "Timeless Ethnic Styles for Her",   // Women
-    1: "Timeless Ethnic Styles for Him",      // Men
+    2: "On-trend collection for Women",   // Women
+    1: "On-trend collection for Men",      // Men
     3: "Accessories",  // Couple
   };
 
@@ -81,12 +81,18 @@ const CategoryIcons = () => {
     </div>
   );
 
-  const CategoryRow = ({ title, items }) => (
+  const CategoryRow = ({ title, subtitle, items }) => (
     <div className="mb-12">
       <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
         {title}
       </h2>
 
+{/* Subtitle */}
+    {subtitle && (
+      <p className="text-gray-600 dark:text-gray-400 mb-6 text-sm sm:text-base">
+        {subtitle}
+      </p>
+    )}
       {items.length > 0 ? (
         <div
           className="
@@ -108,22 +114,31 @@ const CategoryIcons = () => {
   );
 
   return (
-    <div className="px-6 py-10 bg-white dark:bg-black font-playfair text-left">
-      {loading ? (
-        <p className="text-gray-500">Loading...</p>
-      ) : (
-        <>
-          {[2, 1, 3].map((id) => (
-            <CategoryRow
-            key={id}
-            title={categoryMap[id]}
-            items={getSubcategories(id)}
-          />
-          ))}
-        </>
-      )}
-    </div>
-  );
+  <div className="px-6 py-10 bg-white dark:bg-black font-playfair text-left">
+    {loading ? (
+      <p className="text-gray-500">Loading...</p>
+    ) : (
+      <>
+        <CategoryRow
+          title="On-trend collection for Women"
+          subtitle="Timeless Ethnic Styles for Her"
+          items={getSubcategories(2)}
+        />
+        <CategoryRow
+          title="On-trend collection for Men"
+          subtitle="Timeless Ethnic Styles for Him"
+          items={getSubcategories(1)}
+        />
+        <CategoryRow
+          title="Accessories"
+          subtitle="Complete your look with timeless accessories and statement pieces."
+          items={getSubcategories(3)}
+        />
+      </>
+    )}
+  </div>
+);
+
 };
 
 export default CategoryIcons;
