@@ -8,7 +8,7 @@ export default function useCategories() {
 
   useEffect(() => {
     axios
-      .get("https://aliasgar.pythonanywhere.com/api/rentals/categories/")
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/categories/`)
       .then((res) => {
         setCategories(res.data);
         setLoading(false);

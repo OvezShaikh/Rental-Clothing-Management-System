@@ -19,7 +19,7 @@ export default function useUsers() {
         }
 
         const res = await axios.get(
-          "https://aliasgar.pythonanywhere.com/api/auth/list/",
+          `${import.meta.env.VITE_API_BASE_URL}/api/auth/list/`,
           {
             headers: { Authorization: `Bearer ${userData.access}` },
           }

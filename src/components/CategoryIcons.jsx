@@ -21,7 +21,7 @@ const CategoryIcons = () => {
     const fetchSubcategories = async () => {
       try {
         const res = await axios.get(
-          "https://aliasgar.pythonanywhere.com/api/rentals/subcategories/"
+          `${import.meta.env.VITE_API_BASE_URL}/rentals/subcategories/`
         );
         setSubcategories(res.data || []);
       } catch (err) {

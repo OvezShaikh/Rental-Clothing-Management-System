@@ -60,7 +60,7 @@ export default function AdminDashboard() {
       try {
         const userData = JSON.parse(localStorage.getItem("user"));
         if (!userData?.access) return setLoading(false);
-        const res = await axios.get("https://aliasgar.pythonanywhere.com/api/rentals/orders/", {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/orders/`, {
           headers: { Authorization: `Bearer ${userData.access}` },
         });
         setRentals(res.data || []);

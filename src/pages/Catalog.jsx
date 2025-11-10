@@ -169,7 +169,7 @@ useEffect(() => {
         </button>
 
         {categories
-          .filter((cat) => ["Mens", "Womens", "Couple"].includes(cat.name))
+          .filter((cat) => ["Mens", "Womens", "Accessories"].includes(cat.name))
           .map((cat) => (
             <button
               key={cat.id}

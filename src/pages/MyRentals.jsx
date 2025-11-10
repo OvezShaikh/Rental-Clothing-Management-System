@@ -22,7 +22,7 @@ export default function MyRentals() {
       }
 
       const res = await axios.get(
-        "https://aliasgar.pythonanywhere.com/api/rentals/orders/",
+        `${import.meta.env.VITE_API_BASE_URL}/api/rentals/orders/`,
         { headers: { Authorization: `Bearer ${userData.access}` } }
       );
 

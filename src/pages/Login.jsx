@@ -42,7 +42,7 @@ export default function Login() {
     };
 
     const res = await axios.post(
-      "https://aliasgar.pythonanywhere.com/api/auth/google-login/",
+      `${import.meta.env.VITE_API_BASE_URL}/api/auth/google-login/`,
       payload
     );
 
@@ -83,7 +83,7 @@ export default function Login() {
   setLoading(true);
 
   try {
-    const res = await axios.post("https://aliasgar.pythonanywhere.com/api/auth/send-otp/", {
+    const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/send-otp/`, {
       email,
     });
 
