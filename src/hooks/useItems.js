@@ -8,7 +8,7 @@ export default function useItems() {
 
   useEffect(() => {
     axiosInstance
-      .get(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/items/`)
+      .get(`/api/rentals/items/`)
       .then((res) => {
         setItems(res.data);
         setLoading(false);

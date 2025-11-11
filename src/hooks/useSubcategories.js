@@ -8,7 +8,7 @@ export default function useSubCategories() {
 
   useEffect(() => {
     axiosInstance
-      .get(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/subcategories/`)
+      .get(`/api/rentals/subcategories/`)
       .then((res) => {
         setSubCategories(res.data || []);
         setLoading(false);

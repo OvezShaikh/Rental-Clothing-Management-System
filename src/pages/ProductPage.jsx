@@ -19,7 +19,7 @@ export default function ProductPage() {
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
   useEffect(() => {
     axiosInstance
-      .get(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/items/${id}/`)
+      .get(`/api/rentals/items/${id}/`)
       .then((res) => {
         setProduct(res.data);
         setAvailableSizes(res.data.sizes || []);  // ✅ Get sizes from API
@@ -35,7 +35,7 @@ export default function ProductPage() {
 
   useEffect(() => {
     axiosInstance
-      .get(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/items/${id}/`)
+      .get(`/api/rentals/items/${id}/`)
       .then((res) => {
         setProduct(res.data);
         if (res.data.images.length > 0) {

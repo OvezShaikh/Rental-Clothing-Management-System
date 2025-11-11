@@ -14,7 +14,7 @@ export default function OrderTracker({ orderId }) {
   if (!orderId || !token) return;
   setLoading(true);
   axiosInstance
-    .get(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/orders/${orderId}/`, {
+    .get(`/api/rentals/orders/${orderId}/`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((res) => setOrder(res.data))
@@ -38,7 +38,7 @@ export default function OrderTracker({ orderId }) {
     setLoading(true);
     try {
       const res = await axiosInstance.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/rentals/shipping/${orderId}/create-shipment/`,
+        `/api/rentals/shipping/${orderId}/create-shipment/`,
         {}, // empty body (if API doesn’t require one)
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -58,7 +58,7 @@ export default function OrderTracker({ orderId }) {
     setLoading(true);
     try {
       const res = await axiosInstance.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/rentals/shipping/${orderId}/track-shipment/`,
+        `/api/rentals/shipping/${orderId}/track-shipment/`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setShipment(res.data); // API response

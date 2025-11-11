@@ -151,7 +151,7 @@ const handlePayment = async () => {
       size: orderItems[0]?.size,
     };
 
-    const createOrderRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/orders/`, {
+    const createOrderRes = await fetch(`/api/rentals/orders/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -174,7 +174,7 @@ const handlePayment = async () => {
       address: userDetails.address,
     };
 
-    const createPaymentRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/payment/create/`, {
+    const createPaymentRes = await fetch(`/api/rentals/payment/create/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -207,7 +207,7 @@ const handlePayment = async () => {
       handler: async function (response) {
         try {
           // 5️⃣ Update order after successful payment
-          await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/orders/${orderId}/`, {
+          await fetch(`/api/rentals/orders/${orderId}/`, {
             method: "PATCH",
             headers: {
               "Content-Type": "application/json",
@@ -217,7 +217,7 @@ const handlePayment = async () => {
           });
 
           // 6️⃣ Create shipment
-          await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/shipments/`, {
+          await fetch(`/api/rentals/shipments/`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

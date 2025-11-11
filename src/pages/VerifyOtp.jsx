@@ -18,7 +18,7 @@ export default function VerifyOtp() {
     setMessage("");
 
     try {
-      const res = await axiosInstance.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/verify-otp/`, {
+      const res = await axiosInstance.post(`/api/auth/verify-otp/`, {
         email,
         otp,
       });

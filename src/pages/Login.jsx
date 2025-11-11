@@ -42,7 +42,7 @@ export default function Login() {
     };
 
     const res = await axiosInstance.post(
-      `${import.meta.env.VITE_API_BASE_URL}/api/auth/google-login/`,
+      `/api/auth/google-login/`,
       payload
     );
 
@@ -83,7 +83,7 @@ export default function Login() {
   setLoading(true);
 
   try {
-    const res = await axiosInstance.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/send-otp/`, {
+    const res = await axiosInstance.post(`/api/auth/send-otp/`, {
       email,
     });
 

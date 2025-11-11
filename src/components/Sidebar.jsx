@@ -19,7 +19,7 @@ export default function Sidebar({ isOpen, onClose }) {
       const decoded = jwtDecode(token);
 
       const res = await axiosInstance.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/auth/list/`,
+        `/api/auth/list/`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

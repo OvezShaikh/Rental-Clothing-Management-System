@@ -8,7 +8,7 @@ export default function useCategories() {
 
   useEffect(() => {
     axiosInstance
-      .get(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/categories/`)
+      .get(`/api/rentals/categories/`)
       .then((res) => {
         setCategories(res.data);
         setLoading(false);
