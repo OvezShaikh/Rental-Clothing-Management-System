@@ -25,7 +25,7 @@ import {
 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import axios from "axios";
+import axiosInstance from "../axios";
 import useItems from "../hooks/useItems";
 import useUsers from "../hooks/useUsers";
 
@@ -60,7 +60,7 @@ export default function AdminDashboard() {
       try {
         const userData = JSON.parse(localStorage.getItem("user"));
         if (!userData?.access) return setLoading(false);
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/orders/`, {
+        const res = await axiosInstance.get(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/orders/`, {
           headers: { Authorization: `Bearer ${userData.access}` },
         });
         setRentals(res.data || []);

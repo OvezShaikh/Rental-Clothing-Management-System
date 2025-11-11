@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../axios";
 import "../App.css";
 import { images } from "../constants/images"; // Adjust path if needed
 import { LuSparkle } from "react-icons/lu";
@@ -20,8 +20,8 @@ const CategoryIcons = () => {
   useEffect(() => {
     const fetchSubcategories = async () => {
       try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/rentals/subcategories/`
+        const res = await axiosInstance.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/rentals/subcategories/`
         );
         setSubcategories(res.data || []);
       } catch (err) {

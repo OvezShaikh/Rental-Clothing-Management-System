@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../axios";
 
 export default function OrderTracker({ orderId }) {
   const [order, setOrder] = useState(null);
@@ -13,7 +13,7 @@ export default function OrderTracker({ orderId }) {
  useEffect(() => {
   if (!orderId || !token) return;
   setLoading(true);
-  axios
+  axiosInstance
     .get(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/orders/${orderId}/`, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -37,7 +37,7 @@ export default function OrderTracker({ orderId }) {
     }
     setLoading(true);
     try {
-      const res = await axios.post(
+      const res = await axiosInstance.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/rentals/shipping/${orderId}/create-shipment/`,
         {}, // empty body (if API doesn’t require one)
         { headers: { Authorization: `Bearer ${token}` } }
@@ -57,7 +57,7 @@ export default function OrderTracker({ orderId }) {
     }
     setLoading(true);
     try {
-      const res = await axios.get(
+      const res = await axiosInstance.get(
         `${import.meta.env.VITE_API_BASE_URL}/api/rentals/shipping/${orderId}/track-shipment/`,
         { headers: { Authorization: `Bearer ${token}` } }
       );

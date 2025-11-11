@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaStar, FaHeart, FaShareAlt, FaShoppingCart, FaShoppingBag } from "react-icons/fa";
-import axios from "axios";
+import axiosInstance from "../axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -18,7 +18,7 @@ export default function ProductPage() {
   const [showZoom, setShowZoom] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
   useEffect(() => {
-    axios
+    axiosInstance
       .get(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/items/${id}/`)
       .then((res) => {
         setProduct(res.data);
@@ -34,7 +34,7 @@ export default function ProductPage() {
   }, [id]);
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/items/${id}/`)
       .then((res) => {
         setProduct(res.data);

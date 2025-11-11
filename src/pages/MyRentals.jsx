@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DashboardLayout from "../components/DashboardLayout";
-import axios from "axios";
+import axiosInstance from "../axios";
 
 export default function MyRentals() {
   const [myRentals, setMyRentals] = useState([]);
@@ -21,7 +21,7 @@ export default function MyRentals() {
         return;
       }
 
-      const res = await axios.get(
+      const res = await axiosInstance.get(
         `${import.meta.env.VITE_API_BASE_URL}/api/rentals/orders/`,
         { headers: { Authorization: `Bearer ${userData.access}` } }
       );

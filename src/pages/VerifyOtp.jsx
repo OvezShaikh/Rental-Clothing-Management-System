@@ -1,7 +1,7 @@
 // src/pages/VerifyOtp.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../axios";
 import Navbar from "../components/Navbar";
 import { FaUserCircle } from "react-icons/fa";
 
@@ -18,7 +18,7 @@ export default function VerifyOtp() {
     setMessage("");
 
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/verify-otp/`, {
+      const res = await axiosInstance.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/verify-otp/`, {
         email,
         otp,
       });

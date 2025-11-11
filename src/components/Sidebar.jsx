@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import { FaHeart, FaTruck, FaCheck } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../axios";
 import { jwtDecode } from "jwt-decode";
 
 export default function Sidebar({ isOpen, onClose }) {
@@ -18,7 +18,7 @@ export default function Sidebar({ isOpen, onClose }) {
 
       const decoded = jwtDecode(token);
 
-      const res = await axios.get(
+      const res = await axiosInstance.get(
         `${import.meta.env.VITE_API_BASE_URL}/api/auth/list/`,
         { headers: { Authorization: `Bearer ${token}` } }
       );

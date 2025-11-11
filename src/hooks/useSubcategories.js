@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../axios";
 
 export default function useSubCategories() {
   const [subCategories, setSubCategories] = useState([]);
@@ -7,7 +7,7 @@ export default function useSubCategories() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(`${import.meta.env.VITE_API_BASE_URL}/api/rentals/subcategories/`)
       .then((res) => {
         setSubCategories(res.data || []);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../axios";
 
 export default function useUsers() {
   const [users, setUsers] = useState([]);
@@ -18,7 +18,7 @@ export default function useUsers() {
           return;
         }
 
-        const res = await axios.get(
+        const res = await axiosInstance.get(
           `${import.meta.env.VITE_API_BASE_URL}/api/auth/list/`,
           {
             headers: { Authorization: `Bearer ${userData.access}` },

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import Navbar from "../components/Navbar";
-import axios from "axios";
+import axiosInstance from "../axios";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ export default function Login() {
       email: existingUser?.email || googleProfile.email, // pass existing email if available
     };
 
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       `${import.meta.env.VITE_API_BASE_URL}/api/auth/google-login/`,
       payload
     );
@@ -83,7 +83,7 @@ export default function Login() {
   setLoading(true);
 
   try {
-    const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/send-otp/`, {
+    const res = await axiosInstance.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/send-otp/`, {
       email,
     });
 
