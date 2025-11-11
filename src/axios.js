@@ -8,7 +8,7 @@ if (
   window.location.hostname.includes("vercel.app") ||
   window.location.hostname.includes("paridhra.in")
 ) {
-  baseURL = "/api"; // Use Vercel rewrite proxy to avoid HTTPS → HTTP blocking
+  baseURL = ""; // Use Vercel rewrite proxy to avoid HTTPS → HTTP blocking
 }
 
 const axiosInstance = axios.create({
