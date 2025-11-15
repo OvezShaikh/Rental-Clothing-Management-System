@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "http://157.245.105.143/api/$1"
+      "destination": "https://api.paridhra.in/api/$1"
     },
     {
       "source": "/media/(.*)",
-      "destination": "http://157.245.105.143/api/media/$1"
+      "destination": "https://api.paridhra.in/api/media/$1"
     },
     {
       "source": "/(.*)",
