@@ -34,7 +34,6 @@ export default function PaymentPage() {
           },
         },
       ],
-      securityDeposit: 0,
     }
     : cartOrder;
 
@@ -87,7 +86,7 @@ export default function PaymentPage() {
 
   const totalAmount =
     orderItems.reduce((acc, item) => acc + item.price * item.rentalDays, 0) +
-    (finalOrder?.securityDeposit || 0);
+    (finalOrder?.security_deposit || 0);
 
   // Example booked dates
   const bookedDates = [{ startDate: new Date(2025, 7, 2), endDate: new Date(2025, 7, 5) }];
@@ -140,7 +139,7 @@ const handlePayment = async () => {
     const orderPayload = {
       user_email: user?.email || userDetails.email,
       status: "pending", // mark as pending until payment succeeds
-      security_deposit: finalOrder?.securityDeposit || 0,
+      security_deposit: finalOrder?.security_deposit,
       items: orderItems.map(item => ({
         item: item.id,
         size: item.size || "M",
@@ -388,7 +387,7 @@ const handlePayment = async () => {
               </div>
               <div className="flex justify-between">
                 <span>Security Deposit</span>
-                <span>₹{finalOrder?.securityDeposit}</span>
+                <span>₹{finalOrder?.security_deposit}</span>
               </div>
               <div className="flex justify-between font-semibold text-lg border-t pt-3">
                 <span>Total</span>
