@@ -83,7 +83,7 @@ export default function Login() {
   setLoading(true);
 
   try {
-    const res = await axiosInstance.post(`/api/auth/send-otp/`, {
+    const res = await axiosInstance.post(`/auth/send-otp/`, {
       email,
     });
 
